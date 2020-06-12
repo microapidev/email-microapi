@@ -12,6 +12,7 @@ requests = "*"
 sendgrid = "*"
 python-dotenv = "*"
 drf-yasg = "*"
+django-rest-auth = "*"
 
 [requires]
 python_version = "3.8"
