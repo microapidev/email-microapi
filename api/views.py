@@ -29,7 +29,7 @@ class UserCreate(APIView):
             token = Token.objects.create(user=user)
 
             resp = { 'status': 'success', 'data': { 'message': 'Account created successfully.' } }
-            resp['data']['account_id'] = user.id
+            resp['data']['account_id'] = user.username
             resp['data']['access_token'] = token.key
 
             return Response(resp, status=status.HTTP_201_CREATED)
