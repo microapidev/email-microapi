@@ -27,11 +27,12 @@ class UserCreate(APIView):
         if serializer.is_valid():
             user = serializer.save()
             token = Token.objects.create(user=user)
-            json = serializer.data
-            json['id'] = user.id
-            json['token'] = token.key
-            
-            return Response(json, status=status.HTTP_201_CREATED)
+
+            resp = { 'status': 'success', 'data': { 'message': 'Account created successfully.' } }
+            resp['data']['account_id'] = user.username
+            resp['data']['access_token'] = token.key
+
+            return Response(resp, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -47,7 +48,7 @@ class SendMail(APIView):
     def post(self, request):
         mail_sz = MailSerializer(data=request.data)
         if mail_sz.is_valid():
-            return send_email(mail_sz.validated_data)
+            return send_email(request, mail_sz.validated_data)
         else:
             return Response({
                 'status': 'failure',
@@ -66,14 +67,14 @@ class SendMailWithTemplate(APIView):
     def post(self, request):
         template_mail_sz = TemplateMailSerializer(data=request.data)
         if template_mail_sz.is_valid():
-            return send_email(template_mail_sz.validated_data, is_html_template=True)
+            return send_email(request, template_mail_sz.validated_data, is_html_template=True)
         else:
             return Response({
                 'status': 'failure',
                 'data': { 'message': 'Incorrect request format.', 'errors': template_mail_sz.errors}
             }, status=status.HTTP_400_BAD_REQUEST)
 
-def send_email(options, is_html_template=False):
+def send_email(request, options, is_html_template=False):
 
     def get_email_dict(emails, delimeter):
         return [{'email': email.strip()} for email in emails.split(delimeter)]
@@ -92,7 +93,7 @@ def send_email(options, is_html_template=False):
             'to': [{'email': options['recipient']}],
             'subject': options['subject']
         }],
-        'from': {'email': options['sender']},
+        'from': {'email': request.user.email},
         'content': [{
             'type': body_type,
             'value': body
