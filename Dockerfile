@@ -18,7 +18,9 @@ ADD . /app
 
 # Switching to a non-root user, please refer to https://aka.ms/vscode-docker-python-user-rights
 RUN useradd appuser && chown -R appuser /app
-USER appuser
+RUN python manage.py collectstatic --noinput
+
+#USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # File wsgi.py was not found in subfolder:Team-Fierce-Backend-Python. Please enter the Python path to wsgi file.
