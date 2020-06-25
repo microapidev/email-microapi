@@ -127,7 +127,14 @@ def send_email(request, options, is_html_template=False):
 @api_view(['POST', ])
 def send_invitation_link(request):
         if request.method=='POST':
-            email = request.POST.get('org_email')
+            # for testing since test requests arent authenticated
+
+            try:
+                email = request.user.email
+            except AttributeError:
+                # if user has no email, which shouldnt happen, the org_email, takes the place of the sender
+                email = request.POST.get('org_email')
+
             site_name = request.POST.get('site_name')
             registration_page_link = request.POST.get('registration_link')
 
@@ -139,7 +146,6 @@ def send_invitation_link(request):
                 subject = validated_data.get('subject')
                 description = validated_data.get('body')
                 from_email = Email(request.POST.get('org_email'))
-                print(email)
                 html_content = get_template('email_invitation_template.html').render({'sender': email, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
                 content = Content("text/html", html_content)
 
