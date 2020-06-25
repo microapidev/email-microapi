@@ -143,7 +143,7 @@ def send_invitation_link(request):
             if serializer.is_valid():
                 validated_data = serializer.validated_data
                 to_email = validated_data.get('recipient')
-                subject = validated_data.get('subject')
+                subject = 'User Invitation'
                 description = validated_data.get('body')
                 from_email = Email(request.POST.get('org_email'))
                 html_content = get_template('email_invitation_template.html').render({'sender': email, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
