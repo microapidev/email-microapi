@@ -143,7 +143,7 @@ class SendInvitationLink(generics.GenericAPIView):
                 to_email = validated_data.get('recipient')
                 subject = 'User Invitation'
                 description = validated_data.get('body')
-                from_email = Email(request.POST.get('org_email'))
+                from_email = validated_data.get('org_email')
                 html_content = get_template('email_invitation_template.html').render({'sender': email, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
                 content = Content("text/html", html_content)
 
