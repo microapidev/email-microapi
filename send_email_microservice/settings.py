@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     #applications
-    'api'
+    'api',
+    'awsmail'
 ]
 
 MIDDLEWARE = [
@@ -148,10 +149,20 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # #SMTP SERVER SETTINGS SENDGRID
-SENDGRID_API_KEY = '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'
+
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = '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'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+
+#AMAZON SES SETTINGS
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'email-smtp.eu-west-2.amazonaws.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.environ.get('AWS_SES_SMTP_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('AWS_SES_PASSWORD')
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
