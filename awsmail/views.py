@@ -31,7 +31,10 @@ class awsEmail(APIView):
 						from_email,
 						[recipient_list]
 						)
-			return Response(response)
+			return Response({
+                    'status': 'success',
+                    'data': {'message': 'Invitation Sent Successfully'}
+                }, status=status.HTTP_200_OK)
 
 		else:
 			return Response({
