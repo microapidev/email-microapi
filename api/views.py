@@ -118,6 +118,7 @@ class SendInvitationLink(APIView):
 
     @swagger_auto_schema(
         request_body=CustomTeplateMailSerializer,
+        operation_summary="Sends Invitation Link",
         operation_description="Sends email invites",
         responses=MAIL_RESPONSES
     )
@@ -157,6 +158,7 @@ class SendInvitationLink(APIView):
 class SendConfirmationLink(APIView):
     @swagger_auto_schema(
         request_body=CustomTeplateMailSerializer,
+        operation_summary="Send Email for Confirmation",
         operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe confirmation url",
         responses=MAIL_RESPONSES
     )
@@ -194,6 +196,7 @@ class SendConfirmationLink(APIView):
 class SendRegistrationMail(APIView):
     @swagger_auto_schema(
         request_body=CustomTeplateMailSerializer,
+        operation_summary="Sends Email for Successful Registration",
         operation_description="Sends email after user registers, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe site url",
         responses=MAIL_RESPONSES
     )
