@@ -9,4 +9,5 @@ urlpatterns = [
     path('send_invitation_link/', views.SendInvitationLink.as_view()),
     path('send_confirmation_link/', views.SendConfirmationLink.as_view()),
     path('send_welcome_link/', views.SendRegistrationMail.as_view()),
+    path('send_scheduled_mail/', views.SendScheduledMail.as_view())
 ]

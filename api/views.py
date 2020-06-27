@@ -15,6 +15,9 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
+from datetime import datetime, timedelta
+import time
+
 MAIL_RESPONSES = {
     '200': 'Mail sent successfully.',
     '400': 'Incorrect request format.',
@@ -59,6 +62,8 @@ class SendMail(APIView):
                 'status': 'failure',
                 'data': { 'message': 'Incorrect request format.', 'errors': mail_sz.errors}
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
 class SendMailWithTemplate(APIView):
 
     @swagger_auto_schema(
@@ -77,12 +82,57 @@ class SendMailWithTemplate(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
-def send_email(options, is_html_template=False):
+class SendScheduledMail(APIView):
+
+    #permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        request_body=MailSerializer,
+        operation_description="Sends email pre-scheduled mail as plaintext.",
+        responses=MAIL_RESPONSES
+    )
+    def post(self, request):
+        mail_sz = MailSerializer(data=request.data)
+        if mail_sz.is_valid():
+            send_email(request, mail_sz.validated_data, False, scheduled=True)
+
+        else:
+            return Response({
+                'status': 'failure',
+                'data': { 'message': 'Incorrect request format.', 'errors': mail_sz.errors}
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+def send_email(options, is_html_template=False, scheduled=True):
     def get_email_dict(emails, delimeter):
         return [{'email': email.strip()} for email in emails.split(delimeter)]
     if is_html_template:
         body_type = 'text/html'
         body = options['htmlBody']
+
+    elif scheduled:
+         # Get present date/time
+        current_time = datetime.now() # Get timestamp of current time
+        time_to_send = options['time_to_send'] # Get the datetime object from the serializer option
+
+        future_in_epoch = datetime.timestamp(time_to_send) # Convert datetime object to POSIX timestamp in place
+        secs = future_in_epoch - datetime.timestamp(current_time) # Timedelta between current time and scheduled time in epoch seconds      
+        
+        # Convert the time to timestamp
+        # later_timestamp = datetime.timestamp(later_time) 
+        data = {
+        'personalizations': [{
+            'to': [{'email': options['recipient']}],
+            'subject': options['subject'],
+            'send_at': future_in_epoch
+        }],
+        'from': {'email': request.user.email},
+        'content': [{
+            'type': body_type,
+            'value': body
+        }],
+    }
+
     else:
         body_type = 'text/plain'
         body = options['body']

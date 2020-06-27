@@ -9,6 +9,7 @@ class MailSerializer(serializers.Serializer):
     body = serializers.CharField()
     cc = serializers.CharField(required=False, allow_blank=True)
     bcc = serializers.CharField(required=False, allow_blank=True)
+    time_to_send = serializers.DateTimeField(allow_blank=True)
 
 class CustomTeplateMailSerializer(serializers.Serializer):
     recipient = serializers.EmailField()
