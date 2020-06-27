@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import *
-from .serializers import MailSerializer, TemplateMailSerializer, UserSerializer, CustomTeplateMailSerializer
+from .serializers import MailSerializer, TemplateMailSerializer, CustomTeplateMailSerializer
 from send_email_microservice.settings import SENDGRID_API_KEY
 from django.template.loader import get_template
 from rest_framework import mixins
@@ -21,27 +21,27 @@ MAIL_RESPONSES = {
     '500': 'An error occurred, could not send email.' 
 }
 
-class UserCreate(APIView):
-    """ 
-    Creates the user. 
-    """
-    @swagger_auto_schema(
-        request_body=UserSerializer,
-        operation_description="Create an account to generate a token",
-    )
-    def post(self, request, format='json'):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            token = Token.objects.create(user=user)
+# class UserCreate(APIView):
+#     """ 
+#     Creates the user. 
+#     """
+#     @swagger_auto_schema(
+#         request_body=UserSerializer,
+#         operation_description="Create an account to generate a token",
+#     )
+#     def post(self, request, format='json'):
+#         serializer = UserSerializer(data=request.data)
+#         if serializer.is_valid():
+#             user = serializer.save()
+#             token = Token.objects.create(user=user)
 
-            resp = { 'status': 'success', 'data': { 'message': 'Account created successfully.' } }
-            resp['data']['account_id'] = user.username
-            resp['data']['access_token'] = token.key
+#             resp = { 'status': 'success', 'data': { 'message': 'Account created successfully.' } }
+#             resp['data']['account_id'] = user.username
+#             resp['data']['access_token'] = token.key
 
-            return Response(resp, status=status.HTTP_201_CREATED)
+#             return Response(resp, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SendMail(APIView):
 
@@ -118,7 +118,7 @@ class SendInvitationLink(APIView):
 
     @swagger_auto_schema(
         request_body=CustomTeplateMailSerializer,
-        operation_summary="Sends Invitation Link",
+        operation_summary="Predefined template for sending invitation link",
         operation_description="Sends email invites",
         responses=MAIL_RESPONSES
     )
@@ -158,7 +158,7 @@ class SendInvitationLink(APIView):
 class SendConfirmationLink(APIView):
     @swagger_auto_schema(
         request_body=CustomTeplateMailSerializer,
-        operation_summary="Send Email for Confirmation",
+        operation_summary="Predefined template to send confirmation email",
         operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe confirmation url",
         responses=MAIL_RESPONSES
     )
@@ -196,7 +196,7 @@ class SendConfirmationLink(APIView):
 class SendRegistrationMail(APIView):
     @swagger_auto_schema(
         request_body=CustomTeplateMailSerializer,
-        operation_summary="Sends Email for Successful Registration",
+        operation_summary="Predefined template for sending registration confirmation",
         operation_description="Sends email after user registers, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe site url",
         responses=MAIL_RESPONSES
     )

@@ -15,6 +15,7 @@ MAIL_RESPONSES = {
 class awsEmail(APIView):
 	@swagger_auto_schema(
 		request_body=MailSerializer,
+		operation_summary="Sending email with amazon ses",
 		operation_description="Sends email with smtp on aws.",
 		responses=MAIL_RESPONSES
 		)
