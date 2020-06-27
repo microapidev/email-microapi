@@ -21,6 +21,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+import admin_notifications
+admin_notifications.autodiscover()
 
 # schema_view = get_swagger_view(title="Send Email Docs")
 

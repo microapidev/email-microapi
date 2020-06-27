@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | MYcustomer administration{% endblock %}
+{% block extrastyle %}
+<style>
+    #header{
+        background-color: rgb(0, 255, 200);
+        color:skyblue;
+    }
+</style>
+
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">MYcustomer administration</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
