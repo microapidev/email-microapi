@@ -49,7 +49,8 @@ INSTALLED_APPS = [
 
     #applications
     'api',
-    'awsmail'
+    'awsmail',
+    'newsletter',
 ]
 
 MIDDLEWARE = [
