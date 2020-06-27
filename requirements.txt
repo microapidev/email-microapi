@@ -1,4 +1,6 @@
 asgiref==3.2.7
+boto3==1.14.12   
+botocore==1.17.12 
 certifi==2020.4.5.2
 chardet==3.0.4
 coreapi==2.3.3
@@ -6,6 +8,7 @@ coreschema==0.0.4
 Django==3.0.7
 django-admin-honeypot==1.1.0
 django-rest-auth==0.9.5
+django-ses==1.0.1
 djangorestframework==3.11.0
 drf-yasg==1.17.1
 gunicorn==20.0.4

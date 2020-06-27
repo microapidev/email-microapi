@@ -159,10 +159,8 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 
 #AMAZON SES SETTINGS
-EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
-EMAIL_HOST = 'email-smtp.eu-west-2.amazonaws.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = os.environ.get('AWS_SES_SMTP_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('AWS_SES_PASSWORD')
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_SES_REGION_NAME = 'eu-west-2'
+AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''

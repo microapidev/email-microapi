@@ -18,7 +18,7 @@ Send email using AWS Simple Email Service (SES)
 class awsEmail(APIView):
 	@swagger_auto_schema(
 		request_body=MailSerializer,
-		operation_description="Sends email with smtp on AWS.",
+		operation_description="Sends email using SES from AWS.",
 		responses=MAIL_RESPONSES
 		)
 
