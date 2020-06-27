@@ -13,6 +13,8 @@ sendgrid = "*"
 python-dotenv = "*"
 drf-yasg = "*"
 django-rest-auth = "*"
+django-smtp-ssl = "*"
+django-ses = "*"
 
 [requires]
 python_version = "3.8"

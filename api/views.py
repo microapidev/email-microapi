@@ -154,5 +154,75 @@ class SendInvitationLink(APIView):
                     'data': {'message': 'Something went wrong'}
                 }, status=status.HTTP_501_NOT_IMPLEMENTED)
 
+class SendConfirmationLink(APIView):
+    @swagger_auto_schema(
+        request_body=CustomTeplateMailSerializer,
+        operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe confirmation url",
+        responses=MAIL_RESPONSES
+    )
 
+    def post(self, request, *args, **kwargs):
+        sg = SendGridAPIClient(api_key=SENDGRID_API_KEY)
+        serializer= CustomTeplateMailSerializer(data=request.data)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            print(validated_data['org_email'])
+            context = {
+                'sender': validated_data['org_email'],
+                'domain_name': validated_data['site_name'],
+                'description': validated_data['body'],
+                'confirmation_link': validated_data['registration_link']
+            }
+            subject = 'Account Confirmation'
+            mail_to = validated_data['recipient']
+            mail_from = validated_data['org_email']
+            html_content = get_template('confirmation_link_template.html').render(context)
+            content = Content("text/html", html_content)
 
+            mail = Mail(mail_from, mail_to, subject, content)
+            sg.send(mail)
+            return Response({
+                'status': 'Successful',
+                'message': 'Confirmation link successfully sent'
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                'status': 'Failed',
+                'message': 'Confirmation link could not be sent!'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class SendRegistrationMail(APIView):
+    @swagger_auto_schema(
+        request_body=CustomTeplateMailSerializer,
+        operation_description="Sends email after user registers, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe site url",
+        responses=MAIL_RESPONSES
+    )
+
+    def post(self, request, *args, **kwargs):
+        sg = SendGridAPIClient(api_key=SENDGRID_API_KEY)
+        serializer= CustomTeplateMailSerializer(data=request.data)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            context = {
+                'sender': validated_data['org_email'],
+                'domain_name': validated_data['site_name'],
+                'description': validated_data['body'],
+                'site_url': validated_data['registration_link']
+            }
+            subject = 'Welcome Esteemed Customer'
+            mail_to = validated_data['recipient']
+            mail_from = validated_data['org_email']
+            html_content = get_template('welcome_mail_template.html').render(context)
+            content = Content("text/html", html_content)
+
+            mail = Mail(mail_from, mail_to, subject, content)
+            sg.send(mail)
+            return Response({
+                'status': 'Successful',
+                'message': 'Welcome mail successfully sent'
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                'status': 'Failed',
+                'message': 'Welcome mail could not be sent!'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
