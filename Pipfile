@@ -14,7 +14,8 @@ python-dotenv = "*"
 drf-yasg = "*"
 django-rest-auth = "*"
 django-smtp-ssl = "*"
-django-ses = "*"
+django-ses = {extras = ["bounce"],version = "*"}
+m2crypto = "*"
 
 [requires]
 python_version = "3.8"
