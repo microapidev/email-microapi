@@ -12,12 +12,16 @@ MAIL_RESPONSES = {
 	'500': 'An error occurred, could not send email.' 
 }
 
+"""
+Send email using AWS Simple Email Service (SES)
+"""
 class awsEmail(APIView):
 	@swagger_auto_schema(
 		request_body=MailSerializer,
-		operation_description="Sends email with smtp on aws.",
+		operation_description="Sends email using SES from AWS.",
 		responses=MAIL_RESPONSES
 		)
+
 	def post(self, request):
 		serializer = MailSerializer(data=request.data)
 		if serializer.is_valid():
@@ -26,10 +30,11 @@ class awsEmail(APIView):
 			from_email = serializer.validated_data.get('sender')
 			recipient_list = serializer.validated_data.get('recipient')
 
-			response = send_mail(subject,
-						message,
-						from_email,
-						[recipient_list]
+			response = send_mail(
+							subject,
+							message,
+							from_email,
+							[recipient_list]
 						)
 			return Response({
                     'status': 'success',
