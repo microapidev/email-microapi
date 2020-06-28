@@ -47,6 +47,8 @@ Django = "==3.0.7"
 Jinja2 = "==2.11.2"
 "ruamel.yaml" = "==0.16.10"
 "ruamel.yaml.clib" = "==0.2.0"
+gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.8"
