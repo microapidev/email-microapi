@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from api.serializers import MailSerializer
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage, send_mail
 
 MAIL_RESPONSES = {
 	'200': 'Mail sent successfully.',
@@ -28,11 +28,11 @@ class awsMail(APIView):
 		serializer = MailSerializer(data=request.data)
 		if serializer.is_valid():
 			subject = serializer.validated_data.get('subject')
-			message = serializer.validated_data.get('body')
-			from_email = serializer.validated_data.get('sender')
-			recipient_list = serializer.validated_data.get('recipient')
+			body = serializer.validated_data.get('body')
+			sender = serializer.validated_data.get('sender')
+			recipient = serializer.validated_data.get('recipient')
 
-			response = send_mail(subject,message,from_email,[recipient_list])
+			response = EmailMessage(subject, body, sender, [recipient])
 
 			return Response({
                     'status': 'success',
