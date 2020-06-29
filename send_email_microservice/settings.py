@@ -164,16 +164,12 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 
 #AMAZON SES SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
 EMAIL_HOST = 'email.eu-west-2.amazonaws.com'
-EMAIL_PORT = 465
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
 
 # Celery settings
 
