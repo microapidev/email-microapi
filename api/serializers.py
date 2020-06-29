@@ -7,21 +7,14 @@ class MailSerializer(serializers.Serializer):
     sender = serializers.EmailField()
     subject = serializers.CharField()
     body = serializers.CharField()
-    cc = serializers.CharField(required=False, allow_blank=True)
-    bcc = serializers.CharField(required=False, allow_blank=True)
 
-class CustomTeplateMailSerializer(serializers.Serializer):
+class CustomTemplateMailSerializer(serializers.Serializer):
     recipient = serializers.EmailField()
     body = serializers.CharField(required=False, allow_blank=True)
     site_name = serializers.CharField()
     registration_link = serializers.CharField()
-    org_email = serializers.EmailField()
+    sender = serializers.EmailField()
 
 class TemplateMailSerializer(MailSerializer):
     body = None
     htmlBody = serializers.CharField()
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')

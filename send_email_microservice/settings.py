@@ -27,7 +27,7 @@ SECRET_KEY = '0#iz6gmldf!6jvht^n6ub#^%m=zd85e&xw7-q3l5enrkwn%@p3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'email-microdev.herokuapp.com']
 
 
 # Application definition
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -147,12 +148,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
-# #SMTP SERVER SETTINGS SENDGRID
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+import dj_database_url 
+prod_db  =  dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
+
+#SMTP SERVER SETTINGS SENDGRID
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -161,10 +169,22 @@ EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 
 #AMAZON SES SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
-AWS_SES_REGION_NAME = 'eu-west-2'
-AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
-
+EMAIL_HOST = 'email.eu-west-2.amazonaws.com'
+EMAIL_PORT = 465
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+ 
 BOUNCY_TOPIC_ARN = ['arn:aws:sns:eu-west-2:084175886792:email-microapi']
+
+# Celery settings
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+CELERY_TASK_SERIALIZER = 'json'
 

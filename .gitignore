@@ -2,5 +2,5 @@
 .vscode/
 /*.env
 emailenv/
-
+emailapp/
 *.csv
