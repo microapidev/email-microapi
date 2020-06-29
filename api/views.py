@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import *
-from .serializers import MailSerializer, TemplateMailSerializer, CustomTeplateMailSerializer
+from .serializers import MailSerializer, TemplateMailSerializer, CustomTemplateMailSerializer
 from send_email_microservice.settings import SENDGRID_API_KEY
 from django.template.loader import get_template
 from rest_framework import mixins
@@ -117,7 +117,7 @@ def send_email(options, is_html_template=False):
 class SendInvitationLink(APIView):
 
     @swagger_auto_schema(
-        request_body=CustomTeplateMailSerializer,
+        request_body=CustomTemplateMailSerializer,
         operation_summary="Predefined template for sending invitation link",
         operation_description="Sends email invites",
         responses=MAIL_RESPONSES
@@ -157,7 +157,7 @@ class SendInvitationLink(APIView):
 
 class SendConfirmationLink(APIView):
     @swagger_auto_schema(
-        request_body=CustomTeplateMailSerializer,
+        request_body=CustomTemplateMailSerializer,
         operation_summary="Predefined template to send confirmation email",
         operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe confirmation url",
         responses=MAIL_RESPONSES
@@ -195,7 +195,7 @@ class SendConfirmationLink(APIView):
 
 class SendRegistrationMail(APIView):
     @swagger_auto_schema(
-        request_body=CustomTeplateMailSerializer,
+        request_body=CustomTemplateMailSerializer,
         operation_summary="Predefined template for sending registration confirmation",
         operation_description="Sends email after user registers, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe site url",
         responses=MAIL_RESPONSES

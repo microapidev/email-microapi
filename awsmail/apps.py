@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class AwsemailConfig(AppConfig):
-    name = 'AWSemail'
+class awsmailConfig(AppConfig):
+    name = 'awsmail'

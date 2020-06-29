@@ -46,10 +46,11 @@ INSTALLED_APPS = [
     # 'rest_auth',
     # 'rest_framework_swagger',
     'drf_yasg',
+    'django_bouncy',
 
     #applications
     'api',
-    'awsmail'
+    'awsmail',
 ]
 
 MIDDLEWARE = [
@@ -151,6 +152,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 import dj_database_url 
@@ -163,16 +168,16 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 
 #AMAZON SES SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
-EMAIL_HOST = 'email.eu-west-2.amazonaws.com'
-EMAIL_PORT = 465
+
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+AWS_SES_REGION_NAME = 'eu-west-2'
+AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
+
+BOUNCY_TOPIC_ARN = ['arn:aws:sns:eu-west-2:084175886792:email-microapi']
 
 # Celery settings
 
@@ -183,3 +188,4 @@ CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_TASK_SERIALIZER = 'json'
+
