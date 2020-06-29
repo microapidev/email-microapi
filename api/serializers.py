@@ -7,6 +7,8 @@ class MailSerializer(serializers.Serializer):
     sender = serializers.EmailField()
     subject = serializers.CharField()
     body = serializers.CharField()
+    cc = serializers.CharField(required=False, allow_blank=True)
+    bcc = serializers.CharField(required=False, allow_blank=True)
 
 class CustomTemplateMailSerializer(serializers.Serializer):
     recipient = serializers.EmailField()

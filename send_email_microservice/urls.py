@@ -36,11 +36,12 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-		path('admin/', admin.site.urls),
-		path('v1/documentation/', schema_view.as_view(), {'format': '.json'}, name='schema-json'),
-		path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-		path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-		path('v1/', include('api.urls')),
-		path('v1/', include('awsmail.urls')),
-		path('v1/bouncy/', include('django_bouncy.urls')),
+    path('admin/', admin.site.urls),
+    path('v1/documentation/', schema_view.as_view(), {'format': '.json'}, name='schema-json'),
+    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('v1/', include('api.urls')),
+    path('v1/', include('awsmail.urls')),
+    path('v1/', include('password_reset.urls')),
+	path('v1/bouncy/', include('django_bouncy.urls')),
 ]

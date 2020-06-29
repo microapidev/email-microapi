@@ -15,6 +15,7 @@ MAIL_RESPONSES = {
 """
 Send email using AWS Simple Email Service (SES)
 """
+
 class awsMail(APIView):
 	@swagger_auto_schema(
 		request_body=MailSerializer,
@@ -27,16 +28,12 @@ class awsMail(APIView):
 		serializer = MailSerializer(data=request.data)
 		if serializer.is_valid():
 			subject = serializer.validated_data.get('subject')
-			message = serializer.validated_data.get('body')
-			from_email = serializer.validated_data.get('sender')
-			recipient_list = serializer.validated_data.get('recipient')
+			body = serializer.validated_data.get('body')
+			sender = serializer.validated_data.get('sender')
+			recipient = serializer.validated_data.get('recipient')
 
-			response = send_mail(
-							subject,
-							message,
-							from_email,
-							[recipient_list])
-			
+			response = send_mail(subject, body, sender, [recipient] )
+
 			return Response({
                     'status': 'success',
                     'data': {'message': 'Invitation Sent Successfully'}
