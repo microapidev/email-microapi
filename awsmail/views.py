@@ -15,11 +15,11 @@ MAIL_RESPONSES = {
 """
 Send email using AWS Simple Email Service (SES)
 """
-class awsEmail(APIView):
+class awsMail(APIView):
 	@swagger_auto_schema(
 		request_body=MailSerializer,
+		operation_description="Send email using SES from AWS.",
 		operation_summary="Sending email with amazon ses",
-		operation_description="Sends email with smtp on aws.",
 		responses=MAIL_RESPONSES
 		)
 
@@ -35,8 +35,8 @@ class awsEmail(APIView):
 							subject,
 							message,
 							from_email,
-							[recipient_list]
-						)
+							[recipient_list])
+			
 			return Response({
                     'status': 'success',
                     'data': {'message': 'Invitation Sent Successfully'}
