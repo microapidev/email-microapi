@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import awsEmail
+from .views import awsMail
 
 urlpatterns = [
-    path('awsemail/', awsEmail.as_view()),
+    path('awsmail/', awsMail.as_view()),
 ]
