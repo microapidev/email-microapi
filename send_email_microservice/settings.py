@@ -46,10 +46,11 @@ INSTALLED_APPS = [
     # 'rest_auth',
     # 'rest_framework_swagger',
     'drf_yasg',
+    'django_bouncy',
 
     #applications
     'api',
-    'awsmail'
+    'awsmail',
 ]
 
 MIDDLEWARE = [
@@ -164,4 +165,6 @@ AWS_SES_REGION_NAME = 'eu-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 AWS_ACCESS_KEY_ID = ''
 AWS_SECRET_ACCESS_KEY = ''
+
+BOUNCY_TOPIC_ARN = ['arn:aws:sns:eu-west-2:084175886792:email-microapi']
 
