@@ -17,12 +17,69 @@ from rest_framework.authtoken.models import Token
 
 from datetime import datetime, timedelta
 import time
+from publisher import MailQueuePublisher
+
+
+RABBITMQ_HOST = 'localhost'
+RETRY_DELAY_MS = 15
+
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host="localhost")
+)
+
+channel = connection.channel()
+channel.queue_declare(queue='mail_queue', durable=True)
+
+
+class Error(Exception):
+    pass
+
+
+class SendGridError(Error):
+    def __init__(self, message):
+        self.message = message
+
+
+# Create a retry queue in the event that our message fails to send.
+retry_channel = connection.channel()
+retry_channel.queue_declare(
+    queue="retry_queue",
+    durable=True,
+    arguments={
+        'x-message-ttl': RETRY_DELAY_MS,
+        'x-dead-letter-exchange': 'amq.direct',
+        'x-dead-letter-routing-key': 'mail_queue'
+    }
+)
+
+# Callback function for consuming messages
+def send_message(ch, method, props, body):
+    address = body.to_email.decode("UTF-8")
+    print("Sending email to {}".format(address))
+    res = requests.post(
+            "smtp.sendgrid.net",
+            auth={"api": SENDGRID_API_KEY},
+            data={"from": body.from_email,
+                 "to": [address],
+                 "subject": body.subject,
+                 "text": body.content
+            }
+        )
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+    if res.status_code != 200:
+        raise SendGridError(f"{res.status_code} {res.reason}")
+
+channel.basic_consume(on_message_callback=send_message, queue="mail_queue")
+channel.start_consuming()
+
+
 
 MAIL_RESPONSES = {
     '200': 'Mail sent successfully.',
     '400': 'Incorrect request format.',
     '500': 'An error occurred, could not send email.' 
 }
+
 
 class UserCreate(APIView):
     """ 
@@ -45,6 +102,7 @@ class UserCreate(APIView):
             return Response(resp, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SendMail(APIView):
 
@@ -174,6 +232,7 @@ class SendInvitationLink(APIView):
 
     def post(self, request, *args, **kwargs):
         if request.method=='POST':
+            global sg
             sg = SendGridAPIClient()
             serializer = CustomTeplateMailSerializer(data=request.data)
             if serializer.is_valid():
@@ -183,6 +242,7 @@ class SendInvitationLink(APIView):
                 except AttributeError:
                     # if user has no email, which shouldnt happen, the org_email, takes the place of the sender
                     email = validated_data.get('org_email')
+
                 site_name = validated_data.get('site_name')
                 registration_page_link = validated_data.get('registration_link')
                 to_email = validated_data.get('recipient')
@@ -193,7 +253,23 @@ class SendInvitationLink(APIView):
                 content = Content("text/html", html_content)
 
                 mail = Mail(from_email, to_email, subject, content)
-                sg.send(mail)
+
+                # Initializing publisher
+                publisher = MailQueuePublisher()
+                q = publisher.get_mail_queue()
+
+                # Sending message
+                q.basic_publish(
+                        exchange='amq.direct',
+                        routing_key='mail_queue',
+                        body=mail,
+                        properties=pika.BasicProperties(
+                                delivery_mode=2
+                            )
+                    )
+
+                # sg.send(mail)
+
                 return Response({
                     'status': 'success',
                     'data': {'message': 'Invitation Sent Successfully'}
