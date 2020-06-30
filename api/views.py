@@ -131,20 +131,20 @@ class SendInvitationLink(APIView):
     def post(self, request, *args, **kwargs):
         if request.method=='POST':
             sg = SendGridAPIClient()
-            serializer = CustomTeplateMailSerializer(data=request.data)
+            serializer = CustomTemplateMailSerializer(data=request.data)
             if serializer.is_valid():
                 validated_data = serializer.validated_data
                 try:
                     email = request.user.email
                 except AttributeError:
                     # if user has no email, which shouldnt happen, the org_email, takes the place of the sender
-                    email = validated_data.get('org_email')
+                    email = validated_data.get('sender')
                 site_name = validated_data.get('site_name')
                 registration_page_link = validated_data.get('registration_link')
                 to_email = validated_data.get('recipient')
                 subject = 'User Invitation'
                 description = validated_data.get('body')
-                from_email = validated_data.get('org_email')
+                from_email = validated_data.get('sender')
                 html_content = get_template('email_invitation_template.html').render({'sender': email, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
                 content = Content("text/html", html_content)
 
@@ -170,19 +170,19 @@ class SendConfirmationLink(APIView):
 
     def post(self, request, *args, **kwargs):
         sg = SendGridAPIClient(api_key=SENDGRID_API_KEY)
-        serializer= CustomTeplateMailSerializer(data=request.data)
+        serializer= CustomTemplateMailSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
-            print(validated_data['org_email'])
+            print(validated_data['sender'])
             context = {
-                'sender': validated_data['org_email'],
+                'sender': validated_data['sender'],
                 'domain_name': validated_data['site_name'],
                 'description': validated_data['body'],
                 'confirmation_link': validated_data['registration_link']
             }
             subject = 'Account Confirmation'
             mail_to = validated_data['recipient']
-            mail_from = validated_data['org_email']
+            mail_from = validated_data['sender']
             html_content = get_template('confirmation_link_template.html').render(context)
             content = Content("text/html", html_content)
 
@@ -208,18 +208,18 @@ class SendRegistrationMail(APIView):
 
     def post(self, request, *args, **kwargs):
         sg = SendGridAPIClient(api_key=SENDGRID_API_KEY)
-        serializer= CustomTeplateMailSerializer(data=request.data)
+        serializer= CustomTemplateMailSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
             context = {
-                'sender': validated_data['org_email'],
+                'sender': validated_data['sender'],
                 'domain_name': validated_data['site_name'],
                 'description': validated_data['body'],
                 'site_url': validated_data['registration_link']
             }
             subject = 'Welcome Esteemed Customer'
             mail_to = validated_data['recipient']
-            mail_from = validated_data['org_email']
+            mail_from = validated_data['sender']
             html_content = get_template('welcome_mail_template.html').render(context)
             content = Content("text/html", html_content)
 
