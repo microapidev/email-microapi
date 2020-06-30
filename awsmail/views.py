@@ -36,7 +36,7 @@ class awsMail(APIView):
 
 			return Response({
                     'status': 'success',
-                    'data': {'message': 'Invitation Sent Successfully'}
+                    'data': {'message': 'Mail Sent Successfully'}
                 }, status=status.HTTP_200_OK)
 
 		else:
