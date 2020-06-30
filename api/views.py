@@ -5,11 +5,12 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import *
-from .serializers import MailSerializer, TemplateMailSerializer, CustomTemplateMailSerializer
+from .serializers import MailSerializer, TemplateMailSerializer, CustomTemplateMailSerializer, GreetingsSerializer
 from send_email_microservice.settings import SENDGRID_API_KEY
 from django.template.loader import get_template
 from rest_framework import mixins
 from rest_framework import generics
+from .models import GreetingsBC
 
 
 from rest_framework.permissions import IsAuthenticated
@@ -19,6 +20,10 @@ MAIL_RESPONSES = {
     '200': 'Mail sent successfully.',
     '400': 'Incorrect request format.',
     '500': 'An error occurred, could not send email.' 
+}
+BC_RESPONSES = {
+    '200': 'GET request successful',
+    '500': 'An error occurred, request could not be completed.'
 }
 
 # class UserCreate(APIView):
@@ -229,3 +234,29 @@ class SendRegistrationMail(APIView):
                 'status': 'Failed',
                 'message': 'Welcome mail could not be sent!'
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class GreetingsApiView(generics.ListAPIView):
+    serializer_class = GreetingsSerializer
+
+    def get_queryset(self):
+        #pass in a url param
+        parm = self.request.GET.get('type')
+        if parm:
+            queryset = GreetingsBC.objects.filter(message_type=parm)
+        else:
+            queryset = GreetingsBC.objects.all()
+        
+        return queryset
+
+    @swagger_auto_schema(
+        operation_summary="an end point that supplies a list of curated email broadcasts",
+        operation_description="Provides a list of email broadcasts to pick from, for new year/month, or general greetings, you can pass in three types of url parameters \n to filter the list, i.e http://127.0.0.1:8000/v1/greetings?type=general, where type can also be new month or new year. ",
+        responses=BC_RESPONSES
+    )
+    def get(self, request):
+        prit = GreetingsSerializer(self.get_queryset(), many=True)
+        lst = prit.data
+        return Response(lst)
+
+    
+    
