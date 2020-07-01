@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
-from .models import GreetingsBC
 
 class MailSerializer(serializers.Serializer):
     recipient = serializers.EmailField()
@@ -21,9 +20,3 @@ class CustomTemplateMailSerializer(serializers.Serializer):
 class TemplateMailSerializer(MailSerializer):
     body = None
     htmlBody = serializers.CharField()
-
-class GreetingsSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = GreetingsBC
-        fields = '__all__'

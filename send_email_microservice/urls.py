@@ -44,4 +44,5 @@ urlpatterns = [
     path('v1/', include('awsmail.urls')),
     path('v1/', include('password_reset.urls')),
 	path('v1/bouncy/', include('django_bouncy.urls')),
+	path('v1/', include('Greetings_mail.urls')),
 ]
