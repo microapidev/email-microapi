@@ -43,6 +43,12 @@ urlpatterns = [
     path('v1/', include('api.urls')),
     path('v1/', include('awsmail.urls')),
     path('v1/', include('password_reset.urls')),
+<<<<<<< HEAD
 	path('v1/', include('newsletter.urls')),
+=======
+	path('v1/', include('registration.urls')),
+	path('v1/', include('confirmation.urls')),
+	path('v1/', include('invitation.urls')),
+>>>>>>> c9f496db193b964cf74dc2105c95ef598299034c
 	path('v1/bouncy/', include('django_bouncy.urls')),
 ]
