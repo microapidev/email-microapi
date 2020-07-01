@@ -39,8 +39,3 @@ class CreateNewsletter(APIView):
             return Response({'delivery_message': 'sent successfully'},
                             status=status.HTTP_201_CREATED)
         
-
-def newsletter_view(request):
-    return render(request, 'email_newletterx.html', {})
-
-
