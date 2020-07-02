@@ -42,5 +42,5 @@ urlpatterns = [
 		path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 		path('v1/', include('api.urls')),
 		path('v1/', include('awsmail.urls')),
-		path('v1/bouncy/', include('django_bouncy.urls')),
+		path('v1/', include('aws_sns.urls')),
 ]
