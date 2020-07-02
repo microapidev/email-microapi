@@ -20,6 +20,10 @@ MAIL_RESPONSES = {
     '400': 'Incorrect request format.',
     '500': 'An error occurred, could not send email.' 
 }
+BC_RESPONSES = {
+    '200': 'GET request successful',
+    '500': 'An error occurred, request could not be completed.'
+}
 
 class SendMail(APIView):
 
