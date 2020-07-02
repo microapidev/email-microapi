@@ -1,12 +1,5 @@
 from django.contrib import admin
-from .models import Subscriber, Newsletter, NewsletterTemplate
-
-
-class NewsletterSubscriber(admin.ModelAdmin):
-    list_display = ('email', 'date_added')
-
-
-admin.site.register(Subscriber, NewsletterSubscriber)
+from .models import Newsletter
 
 
 class NewsletterEmail(admin.ModelAdmin):
@@ -15,9 +8,3 @@ class NewsletterEmail(admin.ModelAdmin):
 
 admin.site.register(Newsletter, NewsletterEmail)
 
-
-class TemplateHolder(admin.ModelAdmin):
-    list_display = ['title', 'html_template']
-
-
-admin.site.register(NewsletterTemplate,)

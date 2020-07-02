@@ -47,4 +47,6 @@ urlpatterns = [
 		path('v1/', include('registration.urls')),
 		path('v1/', include('confirmation.urls')),
 		path('v1/', include('invitation.urls')),
+    path('v1/', include('newsletter.urls')),
+    path('v1/', include('Greetings_mail.urls')),
 ]
