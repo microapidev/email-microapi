@@ -1,0 +1,44 @@
+header {
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    font-family: 'Permanent Marker', cursive;
+}
+
+footer {
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    font-family: 'Permanent Marker', cursive;  
+}
+
+p {
+    text-align: center;
+    
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0.1, 0.7), rgba(0, 0, 0.1, 0.7)), url("/static/images/destination-1.jpg");
+    background-repeat: repeat;
+    color: white;
+    height: 100%;  
+}
+
+#end {
+    text-align: left;
+}
+
+.alignment {
+    padding-right: 10px;
+    margin-right: 10px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+h6 {
+    font-family: 'Roboto Slab', serif;
+}
