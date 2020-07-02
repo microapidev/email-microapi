@@ -38,7 +38,7 @@ class SendInvitationLink(APIView):
                 try:
                     email = request.user.email
                 except AttributeError:
-                    # if user has no email, which shouldnt happen, the org_email, takes the place of the sender
+                    # if user has no email, which shouldnt happen, the sender, takes the place of the sender
                     email = validated_data.get('sender')
                 site_name = validated_data.get('site_name')
                 registration_page_link = validated_data.get('registration_link')
