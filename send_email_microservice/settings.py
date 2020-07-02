@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'api',
     'awsmail',
     'newsletter',
+    'Greetings_mail',
     'registration',
     'confirmation',
     'invitation'
