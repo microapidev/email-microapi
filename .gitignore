@@ -5,3 +5,4 @@ emailenv/
 emailapp/
 *.csv
 *.CSV
+__pycache__/

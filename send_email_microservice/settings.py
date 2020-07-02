@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_mail_admin',
 
     #third party apps
     'rest_framework',
@@ -53,6 +52,9 @@ INSTALLED_APPS = [
     'api',
     'awsmail',
     'aws_sns',
+    'registration',
+    'confirmation',
+    'invitation',
 ]
 
 MIDDLEWARE = [
@@ -154,7 +156,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 import dj_database_url 
@@ -167,7 +168,6 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 
 #AMAZON SES SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
