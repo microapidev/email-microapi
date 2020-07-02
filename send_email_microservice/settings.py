@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     'api',
     'awsmail',
     'Greetings_mail',
+    'registration',
+    'confirmation',
+    'invitation'
 ]
 
 MIDDLEWARE = [
