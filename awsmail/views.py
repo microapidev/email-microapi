@@ -25,7 +25,7 @@ class AwsMail(APIView):
 	)
 
 	def post(self, request):
-		mail = send_aws(self, request)
+		mail = send_aws.delay(self, request)
 		if mail:
 			return Response({
                     'status': 'success',
