@@ -3,12 +3,18 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from django.conf import settings
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from .models import Newsletter
 from django.core.mail import send_mail
 from django.conf import settings
 from .serializers import NewsletterSerializer
 
+MAIL_RESPONSES = {
+    '200': 'Mail sent successfully.',
+    '400': 'Incorrect request format.',
+    '500': 'An error occurred, could not send email.' 
+}
 
 class DisplayAll(APIView):
     """Displays all the newsletters in the database"""

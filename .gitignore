@@ -7,3 +7,4 @@ emailapp/
 *.csv
 *.CSV
 __pycache__/
+staticfiles/

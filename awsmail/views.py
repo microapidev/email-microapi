@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from api.serializers import MailSerializer
 from drf_yasg.utils import swagger_auto_schema
+from django.http import JsonResponse
 from rest_framework import status
 from .tasks import send_aws
 
@@ -24,7 +25,8 @@ class AwsMail(APIView):
 	)
 
 	def post(self, request):
-		if send_aws(self, request):
+		mail = send_aws(self, request)
+		if mail:
 			return Response({
                     'status': 'success',
                     'data': {'message': 'Mail Sent Successfully'}
