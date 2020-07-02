@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     #applications
     'api',
+    'newsletter',
     'awsmail',
     'registration',
     'confirmation',
@@ -180,7 +181,7 @@ BOUNCY_TOPIC_ARN = ['arn:aws:sns:eu-west-2:084175886792:email-microapi']
 
 # Celery settings
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
+CELERY_BROKER_URL = 'redis://h:p02d42d86a48440210f71e7c6f96476aa6ee1a878fba3f8163da37d1f88f5e7ab@ec2-34-255-33-204.eu-west-1.compute.amazonaws.com:31849'
 
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)

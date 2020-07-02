@@ -26,11 +26,11 @@ class DisplayAll(APIView):
         return Response(serializer.data)
 
 
-class CreateNewsletter(APIView):
+class SendNewsletter(APIView):
     """Creates a newsletter"""
     @swagger_auto_schema(
 		request_body=NewsletterSerializer,
-		operation_description="Creates a newsletter.",
+		operation_description="Sends a newsletter.",
 		responses=MAIL_RESPONSES
 	)
     def post(self, request):
