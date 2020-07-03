@@ -1,4 +1,4 @@
-from django.urls import path
+'''from django.urls import path
 from . import views
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,4 +11,4 @@ urlpatterns = [
     url(r'^confirm/', reset_password_confirm, name="reset-password-confirm"),
     url(r'^', reset_password_request_token, name="reset-password-request"),
 ]
-
+'''
