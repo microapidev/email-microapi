@@ -60,3 +60,5 @@ class SendInvitationLink(APIView):
                     'status': 'failure',
                     'data': {'message': 'Something went wrong'}
                 }, status=status.HTTP_501_NOT_IMPLEMENTED)
+
+
