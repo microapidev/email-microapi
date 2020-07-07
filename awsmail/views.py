@@ -34,5 +34,5 @@ class AwsMail(APIView):
 		else:
 			return Response({
 				'status': 'failure',
-				'data': { 'message': 'Incorrect request format.'}
+				'data': { 'message': 'Incorrect request format.', 'errors': mail.errors}
 				}, status=status.HTTP_400_BAD_REQUEST)
