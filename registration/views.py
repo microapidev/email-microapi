@@ -43,7 +43,7 @@ class SendRegistrationMail(APIView):
             }
             subject = 'Welcome Esteemed Customer'
             mail_to = validated_data['recipient']
-            mail_from = validated_data['sender']
+            mail_from = validated_data['sender'] 
             html_content = get_template('registration/welcome_mail_template.html').render(context)
             content = Content("text/html", html_content)
 

@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_mail_admin',
 
     #third party apps
     'rest_framework',
@@ -179,12 +178,10 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_SES_REGION_NAME = 'eu-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
+
 # Celery settings
 
 CELERY_BROKER_URL = 'redis://h:p02d42d86a48440210f71e7c6f96476aa6ee1a878fba3f8163da37d1f88f5e7ab@ec2-34-255-33-204.eu-west-1.compute.amazonaws.com:31849'
-
-#: Only add pickle to this list if your broker is secured
-#: from unwanted access (see userguide/security.html)
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_TASK_SERIALIZER = 'json'
