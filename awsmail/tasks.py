@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from time import sleep
 
 
-@task
+@task(serializer='json')
 def send_aws(self, request):
     serializer = MailSerializer(data=request.data)
     if serializer.is_valid():
