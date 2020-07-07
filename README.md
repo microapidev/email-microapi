@@ -23,20 +23,21 @@ This Project requires the following Versions:
 # Installation:
 To install all dependencies in this project, open your terminal and run:
 ```
-pip install -r requirements.txt
+pipenv install
+pipenv shell
+python manage.py runserver
 ```
 
-#components:
-1. [Swagger UI template] (https://swagger.io/tools/swagger-ui/)
+### To Contribute:
+Please always follow the right format in making pull request
 
-2. [Docker-Compose file] (https://docs.docker.com/compose/) : was used to deploy, combine and configure multiple docker-container
-
-3. [Sengrid SMTP] (https://sendgrid.com/docs/for-developers/sending-email/)
-
-# Contributing:
-Contributions are welcome and will be fully credited.
-
-We accept contributions via Pull Requests on Github
+* Fork this repository into your remote repository
+* Clone the code form your remote repository into your local machine
+* Create a branch with the feature name you wish to work on
+* Add any changes
+* Create an upstream on your local amchine to pull the latest code from the develop branch of this repository
+* Push to your remote branch
+* Make a pull request to the develop branch of this repository
 
 # Credits:
 HNGi7 team-fierce backend

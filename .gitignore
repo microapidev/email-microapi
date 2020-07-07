@@ -1,3 +1,10 @@
 *.sqlite3
+*.sqlite
 .vscode/
 /*.env
+emailenv/
+emailapp/
+*.csv
+*.CSV
+__pycache__/
+staticfiles/

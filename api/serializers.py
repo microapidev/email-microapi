@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class MailSerializer(serializers.Serializer):
     recipient = serializers.EmailField()
+    sender = serializers.EmailField()
     subject = serializers.CharField()
     body = serializers.CharField()
     cc = serializers.CharField(required=False, allow_blank=True)
@@ -12,8 +13,3 @@ class MailSerializer(serializers.Serializer):
 class TemplateMailSerializer(MailSerializer):
     body = None
     htmlBody = serializers.CharField()
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
