@@ -56,5 +56,5 @@ class SendRegistrationMail(APIView):
         else:
             return Response({
                 'status': 'Failed',
-                'message': 'Welcome mail could not be sent!'
+                'message': 'Welcome mail could not be sent!', 'errors' : serializer.errors
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
