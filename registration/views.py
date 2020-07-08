@@ -38,7 +38,7 @@ class SendRegistrationMail(APIView):
             context = {
                 'sender': validated_data['sender'],
                 'domain_name': validated_data['site_name'],
-                'description': validated_data['body'],
+                'description': validated_data.get('body'),
                 'site_url': validated_data['registration_link']
             }
             subject = 'Welcome Esteemed Customer'

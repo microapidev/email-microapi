@@ -34,13 +34,13 @@ class SendConfirmationLink(APIView):
         serializer= ConfirmationMailSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
-            print(validated_data['sender'])
             context = {
                 'sender': validated_data['sender'],
                 'domain_name': validated_data['site_name'],
-                'description': validated_data['body'],
+                'description': validated_data.get('body'),
                 'confirmation_link': validated_data['registration_link']
             }
+            print(validated_data.get('body'))
             subject = 'Account Confirmation'
             mail_to = validated_data['recipient']
             mail_from = validated_data['sender']
