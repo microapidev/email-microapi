@@ -25,7 +25,7 @@ class SendConfirmationLink(APIView):
     @swagger_auto_schema(
         request_body=ConfirmationMailSerializer,
         operation_summary="Predefined template to send confirmation email",
-        operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe confirmation url",
+        operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and the confirmation url",
         responses=MAIL_RESPONSES
     )
 
