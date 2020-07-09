@@ -10,7 +10,9 @@ from send_email_microservice.settings import SENDGRID_API_KEY
 from django.template.loader import get_template
 from rest_framework import mixins
 from rest_framework import generics
+from django.core.mail import get_connection, send_mail
 
+import os
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
@@ -34,27 +36,38 @@ class SendConfirmationLink(APIView):
         serializer= ConfirmationMailSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
-            print(validated_data['sender'])
             context = {
                 'sender': validated_data['sender'],
                 'domain_name': validated_data['site_name'],
-                'description': validated_data['body'],
+                'description': validated_data.get('body'),
                 'confirmation_link': validated_data['registration_link']
             }
+            print(validated_data.get('body'))
             subject = 'Account Confirmation'
             mail_to = validated_data['recipient']
             mail_from = validated_data['sender']
             html_content = get_template('confirmation/confirmation_link_template.html').render(context)
             content = Content("text/html", html_content)
 
-            mail = Mail(mail_from, mail_to, subject, content)
-            sg.send(mail)
+            # mail = Mail(mail_from, mail_to, subject, content)
+            # sg.send(mail)
+            with get_connection(
+                backend='djcelery_email.backends.CeleryEmailBackend',
+                host='smtp.sendgrid.net',
+                port=587,
+                username='apikey',
+                password=os.getenv('SENDGRID_API_KEY'),
+                use_tls=True
+                ) as connection:
+                send_mail(subject, '', mail_from, [mail_to], html_message=html_content, fail_silently=False, connection=connection)
+
             return Response({
                 'status': 'Successful',
                 'message': 'Confirmation link successfully sent'
             }, status=status.HTTP_200_OK)
+            
         else:
             return Response({
-                'status': 'Failed',
-                'message': 'Confirmation link could not be sent!', 'errors': serializer.errors
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                'status': 'failure',
+                'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+            }, status=status.HTTP_400_BAD_REQUEST)
