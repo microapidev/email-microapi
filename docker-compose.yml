@@ -8,3 +8,25 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5412:8000
+    depends_on: 
+  
+  broker:
+    image: rabbitmq:latest
+    hostname: broker
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "5672:5672"
+    
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    command: celery -A send_email_microservice worker -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - teamfiercebackendpython
+      - broker
