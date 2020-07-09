@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     # 'rest_framework_swagger',
     'drf_yasg',
     'django_bouncy',
+    'djcelery_email',
+    'django_celery_results',
 
     #applications
     'api',
@@ -57,6 +59,7 @@ INSTALLED_APPS = [
     'registration',
     'confirmation',
     'invitation',
+    'mail_app',
 ]
 
 MIDDLEWARE = [
