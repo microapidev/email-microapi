@@ -50,10 +50,13 @@ INSTALLED_APPS = [
 
     #applications
     'api',
+    'newsletter',
     'awsmail',
+    'aws_sns',
+    'Greetings_mail',
     'registration',
     'confirmation',
-    'invitation'
+    'invitation',
 ]
 
 MIDDLEWARE = [
@@ -170,20 +173,15 @@ EMAIL_HOST_USER = 'apikey'
 
 #AMAZON SES SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
-
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_SES_REGION_NAME = 'eu-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
-BOUNCY_TOPIC_ARN = ['arn:aws:sns:eu-west-2:084175886792:email-microapi']
 
 # Celery settings
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
-
-#: Only add pickle to this list if your broker is secured
-#: from unwanted access (see userguide/security.html)
+CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_TASK_SERIALIZER = 'json'

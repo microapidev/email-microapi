@@ -25,7 +25,7 @@ class SendConfirmationLink(APIView):
     @swagger_auto_schema(
         request_body=ConfirmationMailSerializer,
         operation_summary="Predefined template to send confirmation email",
-        operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe confirmation url",
+        operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and the confirmation url",
         responses=MAIL_RESPONSES
     )
 
@@ -56,5 +56,5 @@ class SendConfirmationLink(APIView):
         else:
             return Response({
                 'status': 'Failed',
-                'message': 'Confirmation link could not be sent!'
+                'message': 'Confirmation link could not be sent!', 'errors': serializer.errors
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
