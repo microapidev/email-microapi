@@ -24,9 +24,16 @@ class AwsMail(APIView):
 		responses=MAIL_RESPONSES
 	)
 
-	def post(self, request):
-		mail = send_aws(self, request)
-		if mail:
+	def post(self, request, *args, **kwargs):
+		serializer = MailSerializer(data=request.data)
+		if serializer.is_valid():
+			subject = serializer.validated_data.get('subject')
+			body = serializer.validated_data.get('body')
+			sender = serializer.validated_data.get('sender')
+			recipient = serializer.validated_data.get('recipient')
+
+			send_aws.delay(subject, body, sender, recipient)
+
 			return Response({
                     'status': 'success',
                     'data': {'message': 'Mail Sent Successfully'}
@@ -34,5 +41,5 @@ class AwsMail(APIView):
 		else:
 			return Response({
 				'status': 'failure',
-				'data': { 'message': 'Incorrect request format.'}
+				'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
 				}, status=status.HTTP_400_BAD_REQUEST)
