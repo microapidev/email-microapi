@@ -12,6 +12,7 @@ from rest_framework import mixins
 from rest_framework import generics
 from django.core.mail import get_connection, send_mail
 
+import os
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
@@ -50,20 +51,21 @@ class SendConfirmationLink(APIView):
 
             # mail = Mail(mail_from, mail_to, subject, content)
             # sg.send(mail)
-            connector = get_connection(
+            with get_connection(
                 backend='djcelery_email.backends.CeleryEmailBackend',
                 host='smtp.sendgrid.net',
                 port=587,
                 username='apikey',
-                password='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',
+                password=os.getenv('SENDGRID_API_KEY'),
                 use_tls=True
-            )
-            send_mail(subject, '', mail_from, [mail_to], html_message=html_content, fail_silently=False, connection=connector)
+                ) as connection:
+                send_mail(subject, '', mail_from, [mail_to], html_message=html_content, fail_silently=False, connection=connection)
 
             return Response({
                 'status': 'Successful',
                 'message': 'Confirmation link successfully sent'
             }, status=status.HTTP_200_OK)
+            
         else:
             return Response({
                 'status': 'failure',

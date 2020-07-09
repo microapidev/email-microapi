@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'registration',
     'confirmation',
     'invitation',
+    'send_certificate',
 ]
 
 MIDDLEWARE = [
