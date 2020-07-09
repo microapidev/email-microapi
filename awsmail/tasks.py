@@ -7,5 +7,4 @@ from time import sleep
 @shared_task()
 def send_aws(subject, body, sender, recipient):
     send_mail(subject, body, sender, [recipient], fail_silently=False)
-    sleep(5)
     return send_mail()
