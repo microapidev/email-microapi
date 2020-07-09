@@ -30,6 +30,7 @@ class SendMail(APIView):
     @swagger_auto_schema(
         request_body=MailSerializer,
         operation_description="Sends email as plain text to recipient from sender.",
+        operation_summary="Send plain email using SMTP (sendgrid)",
         responses=MAIL_RESPONSES
     )
     def post(self, request):
@@ -46,6 +47,7 @@ class SendMailWithTemplate(APIView):
     @swagger_auto_schema(
         request_body=TemplateMailSerializer,
         operation_description="Sends email as HTML template to recipient from sender.",
+        operation_summary="Send email with html body using SMTP (sendgrid)",
         responses=MAIL_RESPONSES
     )
     def post(self, request):

@@ -19,14 +19,20 @@ Send email using AWS Simple Email Service (SES)
 class AwsMail(APIView):
 	@swagger_auto_schema(
 		request_body=MailSerializer,
-		operation_description="Send email using Simple Email Service from AWS",
-		operation_summary="Sending email with Simple Email Service",
+		operation_description="Send email using AMAZON SES",
+		operation_summary="Sending email with AMAZON SES",
 		responses=MAIL_RESPONSES
 	)
+	def post(self, request, *args, **kwargs):
+		serializer = MailSerializer(data=request.data)
+		if serializer.is_valid():
+			subject = serializer.validated_data.get('subject')
+			body = serializer.validated_data.get('body')
+			sender = serializer.validated_data.get('sender')
+			recipient = serializer.validated_data.get('recipient')
 
-	def post(self, request):
-		mail = send_aws(self, request)
-		if mail:
+			send_aws.delay(subject, body, sender, recipient)
+			
 			return Response({
                     'status': 'success',
                     'data': {'message': 'Mail Sent Successfully'}
@@ -34,5 +40,5 @@ class AwsMail(APIView):
 		else:
 			return Response({
 				'status': 'failure',
-				'data': { 'message': 'Incorrect request format.'}
+				'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
 				}, status=status.HTTP_400_BAD_REQUEST)

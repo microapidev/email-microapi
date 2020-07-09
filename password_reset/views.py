@@ -1,4 +1,4 @@
-from django.shortcuts import render
+'''from django.shortcuts import render
 from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -200,11 +200,11 @@ class PasswordResetForm(forms.Form):
      email = forms.EmailField(label=_("Email"), max_length=254)
 
      def send_mail(self, subject_template_name, email_template_name,
-              context, from_email, to_email, html_email_template_name=None):
+                   context, from_email, to_email, html_email_template_name=None):
               """
                Send a django.core.mail.EmailMultiAlternatives to `to_email`.
               """
-             subject = loader.render_to_string(subject_template_name, context)
+            subject = loader.render_to_string(subject_template_name, context)
              # Email subject *must not* contain newlines
              subject = ''.join(subject.splitlines())
              body = loader.render_to_string(email_template_name, context)
@@ -215,3 +215,4 @@ class PasswordResetForm(forms.Form):
                  email_message.attach_alternative(html_email, 'text/html')
 
              email_message.send()```
+'''
