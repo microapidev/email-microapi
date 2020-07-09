@@ -10,6 +10,7 @@ from send_email_microservice.settings import SENDGRID_API_KEY
 from django.template.loader import get_template
 from rest_framework import mixins
 from rest_framework import generics
+from django.core.mail import get_connection, send_mail
 
 
 from rest_framework.permissions import IsAuthenticated
@@ -47,8 +48,17 @@ class SendRegistrationMail(APIView):
             html_content = get_template('registration/welcome_mail_template.html').render(context)
             content = Content("text/html", html_content)
 
-            mail = Mail(mail_from, mail_to, subject, content)
-            sg.send(mail)
+            # mail = Mail(mail_from, mail_to, subject, content)
+            # sg.send(mail)
+            connector = get_connection(
+                backend='djcelery_email.backends.CeleryEmailBackend',
+                host='smtp.sendgrid.net',
+                port=587,
+                username='apikey',
+                password='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',
+                use_tls=True
+            )
+            send_mail(subject, '', mail_from, [mail_to], html_message=html_content, fail_silently=False, connection=connector)
             return Response({
                 'status': 'Successful',
                 'message': 'Welcome mail successfully sent'
