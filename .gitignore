@@ -8,3 +8,4 @@ emailapp/
 *.CSV
 __pycache__/
 staticfiles/
+env.example
