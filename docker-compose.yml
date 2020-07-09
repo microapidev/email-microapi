@@ -8,7 +8,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5412:8000
-    depends_on: 
   
   broker:
     image: rabbitmq:latest
