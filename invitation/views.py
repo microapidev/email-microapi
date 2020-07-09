@@ -10,7 +10,7 @@ from send_email_microservice.settings import SENDGRID_API_KEY
 from django.template.loader import get_template
 from rest_framework import mixins
 from rest_framework import generics
-
+from invitation.tasks import send_iv
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
@@ -49,7 +49,7 @@ class SendInvitationLink(APIView):
                 html_content = get_template('invitation/email_invitation_template.html').render({'sender': email, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
                 content = Content("text/html", html_content)
 
-                mail = Mail(from_email, to_email, subject, content)
+                mail = send_iv.delay(from_email, to_email, subject, content)
                 sg.send(mail)
                 return Response({
                     'status': 'success',
