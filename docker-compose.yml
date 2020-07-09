@@ -9,8 +9,6 @@ services:
     ports:
       - 5412:8000
     depends_on: 
-      - worker
-      - broker
   
   broker:
     image: rabbitmq:latest
@@ -22,10 +20,13 @@ services:
       - "5672:5672"
     
   worker:
-    image: teamfiercebackendpython
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: "no"
     command: celery -A send_email_microservice worker -l info
     volumes:
       - .:/code
     depends_on:
+      - teamfiercebackendpython
       - broker
