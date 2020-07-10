@@ -3,7 +3,7 @@ from .models import Newsletter
 
 
 class NewsletterEmail(admin.ModelAdmin):
-    list_display = ('subject', 'body', 'status', 'created', 'updated')
+    list_display = ('subject', 'body', 'from_email', 'to_email', 'created')
 
 
 admin.site.register(Newsletter, NewsletterEmail)

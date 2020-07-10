@@ -26,13 +26,13 @@ from drf_yasg import openapi
 # schema_view = get_swagger_view(title="Send Email Docs")
 
 schema_view = get_schema_view(
-	 openapi.Info(
-			title="Send Mail API",
-			default_version='v1',
-			description="A simple service for sending emails.",
-	 ),
-	 public=True,
-	 permission_classes=(permissions.AllowAny,),
+	openapi.Info(
+		title="Send Mail API",
+		default_version='v1',
+		description="A simple service for sending emails.",
+	),
+	public=True,
+	permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
