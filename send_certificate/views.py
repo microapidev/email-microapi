@@ -25,7 +25,8 @@ class SendCertificateLink(APIView):
         request_body=SendCertificatSerializer,
         operation_summary="Predefined template to send out certificatee links to participants",
         operation_description="Sends certificate links, it takes in parameters such as sender, recipient , body(which can be left empty), and the link to download the certificate",
-        responses=MAIL_RESPONSES
+        responses=MAIL_RESPONSES,
+        tags=['Certificate Email']
     )
 
     def post(self, request, *args, **kwargs):
@@ -47,7 +48,10 @@ class SendCertificateLink(APIView):
 
             return Response({
                 'status': 'Successful',
-                'message': 'certificate link successfully sent'
+                'data':{
+                    'message': 'Certificate link successfully sent'
+                }
+                
             }, status=status.HTTP_200_OK)
             
         else:

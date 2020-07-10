@@ -31,7 +31,8 @@ class SendMail(APIView):
         request_body=MailSerializer,
         operation_description="Sends email as plain text to recipient from sender.",
         operation_summary="Send plain email using SMTP (sendgrid)",
-        responses=MAIL_RESPONSES
+        responses=MAIL_RESPONSES,
+        tags=['Send Plain Email']
     )
     def post(self, request):
         mail_sz = MailSerializer(data=request.data)
@@ -48,7 +49,8 @@ class SendMailWithTemplate(APIView):
         request_body=TemplateMailSerializer,
         operation_description="Sends email as HTML template to recipient from sender.",
         operation_summary="Send email with html body using SMTP (sendgrid)",
-        responses=MAIL_RESPONSES
+        responses=MAIL_RESPONSES,
+        tags=['Send Plain Email with template']
     )
     def post(self, request):
         template_mail_sz = TemplateMailSerializer(data=request.data)

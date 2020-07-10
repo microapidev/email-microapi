@@ -21,7 +21,8 @@ class SendInvitationLink(APIView):
         request_body=InvitationMailSerializer,
         operation_summary="Predefined template for sending invitation link",
         operation_description="Sends email invites",
-        responses=MAIL_RESPONSES
+        responses=MAIL_RESPONSES,
+        tags=['Invitation Email']
     )
 
     def post(self, request, *args, **kwargs):

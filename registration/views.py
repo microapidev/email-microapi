@@ -23,7 +23,8 @@ class SendRegistrationMail(APIView):
         request_body=RegistrationMailSerializer,
         operation_summary="Predefined template for sending registration confirmation",
         operation_description="Sends email after user registers, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe site url",
-        responses=MAIL_RESPONSES
+        responses=MAIL_RESPONSES,
+        tags=['Registration Email']
     )
 
     def post(self, request, *args, **kwargs):

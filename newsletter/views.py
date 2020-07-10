@@ -18,11 +18,6 @@ MAIL_RESPONSES = {
     '500': 'An error occurred, could not send email.' 
 }
 
-MAIL_RESPONSES = {
-    '200': 'Mail sent successfully.',
-    '400': 'Incorrect request format.',
-    '500': 'An error occurred, could not send email.' 
-}
 
 class DisplayAll(APIView):
     """Displays all the newsletters in the database"""
@@ -36,9 +31,10 @@ class DisplayAll(APIView):
 class SendNewsletter(APIView):
     """Creates a newsletter"""
     @swagger_auto_schema(
-		request_body=NewsletterSerializer,
+		request_body=NewsletterSerializers,
 		operation_description="Sends a newsletter.",
-		responses=MAIL_RESPONSES
+		responses=MAIL_RESPONSES,
+        tags=['Send Newsletter']
 	)
 
     def post(self, request):
