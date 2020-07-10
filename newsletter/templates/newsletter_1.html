@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Email Newsletter </title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+        {% load static %}
+        <link href="{%static '/css/style.css'%}" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <style>
+            header {
+                background-color: #666;
+                padding: 30px;
+                text-align: center;
+                font-size: 35px;
+                color: white;
+                font-family: 'Permanent Marker', cursive;
+            }
+
+            footer {
+                background-color: #666;
+                padding: 30px;
+                color: white;
+                font-family: 'Trebuchet MS', sans-serif;  
+            }
+
+            p {
+                text-align: center;
+                
+            }
+
+            body {
+                background-image: linear-gradient(rgba(0, 0, 0.1, 0.7), rgba(0, 0, 0.1, 0.7)), url("/static/images/destination-1.jpg");
+                background-repeat: repeat;
+                color: white;
+                height: 100%;  
+            }
+
+            #end {
+                text-align: left;
+            }
+
+            .alignment {
+                padding-right: 10px;
+                margin-right: 10px;
+                padding-left: 10px;
+                margin-left: 10px;
+            }
+
+            h6 {
+                font-family: 'Roboto Slab', serif;
+            }
+
+        </style>
+        
+
+        <div class="container">
+            <header>
+                <h2>Email Newsletter</h2>
+            </header>
+           
+            <div>
+                <b style="font-weight:600">Hello {{ to_email }},</b>   
+
+                <p>
+                    <h6>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                        when an unknown printer took a galley of type and scrambled it to make a type 
+                        specimen book. It has survived not only five centuries, but also the leap into 
+                        electronic typesetting, remaining essentially unchanged. It was popularised in 
+                        the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+                        and more recently with desktop publishing software like Aldus PageMaker including 
+                        versions of Lorem Ipsum
+                    </h6>
+                </p>
+                <p>
+                    <h6>
+                        It is a long established fact that a reader will be distracted by the readable 
+                        content of a page when looking at its layout. The point of using Lorem Ipsum 
+                        is that it has a more-or-less normal distribution of letters, as opposed to 
+                        using 'Content here, content here', making it look like readable English. 
+                        Many desktop publishing packages and web page editors now use Lorem Ipsum as 
+                        their default model text, and a search for 'lorem ipsum' will uncover many 
+                        web sites still in their infancy. Various versions have evolved over the years, 
+                        sometimes by accident, sometimes on purpose (injected humour and the like).
+                    </h6>
+                </p>
+                <p>
+                    <h6>
+                        It is a long established fact that a reader will be distracted by the readable 
+                        content of a page when looking at its layout. The point of using Lorem Ipsum 
+                        is that it has a more-or-less normal distribution of letters, as opposed to 
+                        using 'Content here, content here', making it look like readable English. 
+                        Many desktop publishing packages and web page editors now use Lorem Ipsum as 
+                        their default model text, and a search for 'lorem ipsum' will uncover many 
+                        web sites still in their infancy. Various versions have evolved over the years, 
+                        sometimes by accident, sometimes on purpose (injected humour and the like).
+                    </h6>
+                </p>
+                <p id="end">
+                    <a href="https://wa.me/1234556" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://wa.me/2349014462443&amp;source=gmail&amp;ust=1593606700394000&amp;usg=AFQjCNEsWzGQrdBihvSX7AE9yqLHDJKUGA">
+                        https://wa.me/1234567
+                    </a>
+                </p>
+            
+      
+              <p id="end">Best wishes</p> 
+              <p id="end"><b><i>The Ceo Lorem</i></b></p>
+            </div>
+            <div>
+                <footer>
+                    <div class="row alignment">
+                        <h4 style="padding-right: 25px; font-size: small; font-family: cursive;">About us</h4><br/>
+                        <h4 style="padding-right: 25px; font-size: small;">Contact us</h4><br/>
+                        <h4 style="padding-right: 25px; font-size: small;">Follow us</h4><br/>
+                    </div>   
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
