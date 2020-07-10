@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from sendgrid.helpers.mail import *
-from .serializers import ConfirmationMailSerializer
+from .serializers import SendCertificatSerializer
 from django.template.loader import get_template
 from .tasks import send_mail
 from rest_framework import mixins
@@ -20,37 +20,34 @@ MAIL_RESPONSES = {
     '500': 'An error occurred, could not send email.' 
 }
 
-class SendConfirmationLink(APIView):
+class SendCertificateLink(APIView):
     @swagger_auto_schema(
-        request_body=ConfirmationMailSerializer,
-        operation_summary="Predefined template to send confirmation email",
-        operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and the confirmation url",
+        request_body=SendCertificatSerializer,
+        operation_summary="Predefined template to send out certificatee links to participants",
+        operation_description="Sends certificate links, it takes in parameters such as sender, recipient , body(which can be left empty), and the link to download the certificate",
         responses=MAIL_RESPONSES
     )
 
     def post(self, request, *args, **kwargs):
-        serializer= ConfirmationMailSerializer(data=request.data)
+        serializer= SendCertificatSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
             context = {
                 'sender': validated_data['sender'],
-                'domain_name': validated_data['site_name'],
-                'description': validated_data.get('body'),
-                'confirmation_link': validated_data['registration_link']
+                'participant_name': validated_data.get('participant_name'),
+                'certificate_link': validated_data['certificate_link']
             }
-            print(validated_data.get('body'))
-            subject = 'Account Confirmation'
+            subject = 'Certificate Of Achievement'
             recipient = validated_data['recipient']
             sender = validated_data['sender']
-            html_content = get_template('confirmation/confirmation_link_template.html').render(context)
+            html_content = get_template('send_certificate/certificate_link.html').render(context)
             content = Content("text/html", html_content)
 
             send_mail(sender, recipient, subject, content)
-            
 
             return Response({
                 'status': 'Successful',
-                'message': 'Confirmation link successfully sent'
+                'message': 'certificate link successfully sent'
             }, status=status.HTTP_200_OK)
             
         else:

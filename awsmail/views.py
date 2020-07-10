@@ -4,7 +4,7 @@ from api.serializers import MailSerializer
 from drf_yasg.utils import swagger_auto_schema
 from django.http import JsonResponse
 from rest_framework import status
-from .tasks import send_aws
+from awsmail.tasks import send_aws
 
 MAIL_RESPONSES = {
 	'200': 'Mail sent successfully.',
