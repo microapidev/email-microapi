@@ -3,20 +3,13 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import *
 from .serializers import RegistrationMailSerializer
-from send_email_microservice.settings import SENDGRID_API_KEY
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
+from sendgrid.helpers.mail import Content
 from rest_framework import mixins
 from rest_framework import generics
-from django.core.mail import get_connection, send_mail
+from .tasks import send_mail
 
-
-import os
-
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
 
 MAIL_RESPONSES = {
     '200': 'Mail sent successfully.',
@@ -34,7 +27,6 @@ class SendRegistrationMail(APIView):
     )
 
     def post(self, request, *args, **kwargs):
-        sg = SendGridAPIClient(api_key=SENDGRID_API_KEY)
         serializer= RegistrationMailSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
@@ -45,23 +37,13 @@ class SendRegistrationMail(APIView):
                 'site_url': validated_data['registration_link']
             }
             subject = 'Welcome Esteemed Customer'
-            mail_to = validated_data['recipient']
-            mail_from = validated_data['sender'] 
+            recipient = validated_data['recipient']
+            sender = validated_data['sender'] 
             html_content = get_template('registration/welcome_mail_template.html').render(context)
             content = Content("text/html", html_content)
 
-            # mail = Mail(mail_from, mail_to, subject, content)
-            # sg.send(mail)
+            send_mail(sender, recipient, subject, content)
 
-            with get_connection(
-                backend='djcelery_email.backends.CeleryEmailBackend',
-                host='smtp.sendgrid.net',
-                port=587,
-                username='apikey',
-                password=os.getenv('SENDGRID_API_KEY'),
-                use_tls=True
-                ) as connection:
-                send_mail(subject, '', mail_from, [mail_to], html_message=html_content, fail_silently=False, connection=connection)
             return Response({
                 'status': 'Successful',
                 'message': 'Welcome mail successfully sent'

@@ -10,7 +10,6 @@ from send_email_microservice.settings import SENDGRID_API_KEY
 from django.template.loader import get_template
 from rest_framework import mixins
 from rest_framework import generics
-from api.tasks import send_grid
 
 
 from rest_framework.permissions import IsAuthenticated
@@ -37,7 +36,7 @@ class SendMail(APIView):
     def post(self, request):
         mail_sz = MailSerializer(data=request.data)
         if mail_sz.is_valid():
-            return send_grid.delay(mail_sz.validated_data)
+            return send_email(mail_sz.validated_data)
         else:
             return Response({
                 'status': 'failure',
@@ -54,7 +53,7 @@ class SendMailWithTemplate(APIView):
     def post(self, request):
         template_mail_sz = TemplateMailSerializer(data=request.data)
         if template_mail_sz.is_valid():
-            return send_grid(template_mail_sz.validated_data, is_html_template=True)
+            return send_email(template_mail_sz.validated_data, is_html_template=True)
         else:
             return Response({
                 'status': 'failure',

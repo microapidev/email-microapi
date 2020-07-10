@@ -3,17 +3,12 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import *
 from .serializers import InvitationMailSerializer
-from send_email_microservice.settings import SENDGRID_API_KEY
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
+from sendgrid.helpers.mail import Content
 from rest_framework import mixins
 from rest_framework import generics
-from invitation.tasks import send_iv
-
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
+from .tasks import send_mail
 
 MAIL_RESPONSES = {
     '200': 'Mail sent successfully.',
@@ -31,26 +26,22 @@ class SendInvitationLink(APIView):
 
     def post(self, request, *args, **kwargs):
         if request.method=='POST':
-            sg = SendGridAPIClient()
             serializer = InvitationMailSerializer(data=request.data)
             if serializer.is_valid():
                 validated_data = serializer.validated_data
-                try:
-                    email = request.user.email
-                except AttributeError:
-                    # if user has no email, which shouldnt happen, the sender, takes the place of the sender
-                    email = validated_data.get('sender')
+                
+
                 site_name = validated_data.get('site_name')
                 registration_page_link = validated_data.get('registration_link')
-                to_email = validated_data.get('recipient')
+                recipient = validated_data.get('recipient')
                 subject = 'User Invitation'
                 description = validated_data.get('body')
-                from_email = validated_data.get('sender')
-                html_content = get_template('invitation/email_invitation_template.html').render({'sender': email, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
+                sender = validated_data.get('sender')
+                html_content = render_to_string('invitation/email_invitation_template.html', {'sender': sender, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
                 content = Content("text/html", html_content)
 
-                mail = send_iv.delay(from_email, to_email, subject, content)
-                sg.send(mail)
+                send_mail(sender, recipient, subject, content)
+
                 return Response({
                     'status': 'success',
                     'data': {'message': 'Invitation Sent Successfully'}
