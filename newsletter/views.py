@@ -18,11 +18,6 @@ MAIL_RESPONSES = {
     '500': 'An error occurred, could not send email.' 
 }
 
-MAIL_RESPONSES = {
-    '200': 'Mail sent successfully.',
-    '400': 'Incorrect request format.',
-    '500': 'An error occurred, could not send email.' 
-}
 
 class DisplayAll(APIView):
     """Displays all the newsletters in the database"""
