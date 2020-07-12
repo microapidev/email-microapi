@@ -11,6 +11,7 @@ Documentation is managed by Swagger with the drf-yasg module.
 # Features:
 - Sending Email
 - Sending Email with Template
+- Sending Predefined emails with templates
 
 # Requirements:
 This Project requires the following Versions:
