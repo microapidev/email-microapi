@@ -51,5 +51,5 @@ urlpatterns = [
 	path('v1/', include('newsletter.urls')),
 	path('v1/', include('send_certificate.urls')),
 	path('v1/bouncy/', include('django_bouncy.urls')),
-    path('v1/', include('Greetings_mail.urls')),
+    # path('v1/', include('Greetings_mail.urls')),
 ]
