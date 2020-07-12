@@ -78,6 +78,7 @@ def send_email(options, is_html_template=False):
             'subject': options['subject']
         }],
         'from': {'email': options['sender']},
+        'reply_to': {'email': options['sender']},
         'content': [{
             'type': body_type,
             'value': body
