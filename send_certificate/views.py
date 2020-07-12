@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from sendgrid.helpers.mail import *
-from .serializers import SendCertificatSerializer
+from .serializers import SendCertificateSerializer
 from django.template.loader import get_template
 from .tasks import send_mail
 from rest_framework import mixins
@@ -22,7 +22,7 @@ MAIL_RESPONSES = {
 
 class SendCertificateLink(APIView):
     @swagger_auto_schema(
-        request_body=SendCertificatSerializer,
+        request_body=SendCertificateSerializer,
         operation_summary="Predefined template to send out certificatee links to participants",
         operation_description="Sends certificate links, it takes in parameters such as sender, recipient , body(which can be left empty), and the link to download the certificate",
         responses=MAIL_RESPONSES,
@@ -30,7 +30,7 @@ class SendCertificateLink(APIView):
     )
 
     def post(self, request, *args, **kwargs):
-        serializer= SendCertificatSerializer(data=request.data)
+        serializer= SendCertificateSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
             context = {

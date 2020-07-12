@@ -13,6 +13,8 @@ def send_mail(sender, recipient, subject, content):
 
     mail = Mail(sender, recipient, subject, content)
 
+    # mail.reply_to = ReplyTo(reply_to)
+
     send = sg.send(mail)
 
     return send
