@@ -3,6 +3,7 @@ from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 
 class MailSerializer(serializers.Serializer):
+    name = serializers.CharField()
     recipient = serializers.EmailField()
     sender = serializers.EmailField()
     subject = serializers.CharField()
