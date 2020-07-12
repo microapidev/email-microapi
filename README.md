@@ -1,7 +1,5 @@
 ## A Dockerized Micro-service for sending Email Notifications by Team-Fierce
 
-![alt text](https://res.cloudinary.com/echefulouis/image/upload/v1591716347/Capture_p1txz0.png)
-
 # Description:
 This is an Email micro-service that sends emails using Swagger UI template and an API. It was built to avoid development teams having to configure mail over and over on projects involving a micro-services infrastructure.
 
