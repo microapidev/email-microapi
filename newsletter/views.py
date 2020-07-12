@@ -76,11 +76,11 @@ class SendCustomMail(APIView):
             to_email = serializer.validated_data.get('to_email')
             with open(settings.BASE_DIR + '/newsletters/templates/newsletter.txt') as f:
                 newsletter_mail = f.read()
-            message = EmailMultiAlternatives(subject, newsletter_mail, from_email, [to_email])
+            message = send_custom_mail.delay(subject, newsletter_mail, from_email, [to_email])
             html_template = get_template('newsletter_1.html').render()
             message.attach_alternative(html_template, 'text/html')
             #using a celery task to send the html_templated email
-            send_custom_mail.send.delay()
+            message.send()
             return Response({'status': 'success',
                         'data': {'message': 'Mail Sent Successfully'}},
                         status=status.HTTP_200_OK)
