@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0#iz6gmldf!6jvht^n6ub#^%m=zd85e&xw7-q3l5enrkwn%@p3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'email-microdev.herokuapp.com']
 
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'newsletter',
     'awsmail',
     'aws_sns',
-    'greetings_mail',
+    # 'greetings_mail',
     'registration',
     'confirmation',
     'invitation',
