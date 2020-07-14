@@ -15,3 +15,4 @@ def send_aws_mail_attachment(subject, body, sender, recipient, attach):
 	mail = EmailMessage(subject, body, sender, [recipient])
 	mail.attach(attach.name, attach.read(), attach.content_type)
 	return mail.send()
+

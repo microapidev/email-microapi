@@ -20,20 +20,22 @@ from django.conf.urls import url
 
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
+from drf_yasg.views import get_schema_view, SwaggerUIRenderer
 from drf_yasg import openapi
 from django.conf import settings
 from django.conf.urls.static import static
 # schema_view = get_swagger_view(title="Send Email Docs")
+SwaggerUIRenderer.template = 'drf-yasg.html'
 
 schema_view = get_schema_view(
-	 openapi.Info(
-			title="Send Mail API",
-			default_version='v1',
-			description="A simple service for sending emails.",
-	 ),
-	 public=True,
-	 permission_classes=(permissions.AllowAny,),
+	openapi.Info(
+		title="Send Mail API",
+		default_version='v1',
+		description="A simple service for sending emails.",
+	),
+	url='https://email.microapi.dev/v1/',
+	public=True,
+	permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
@@ -44,7 +46,6 @@ urlpatterns = [
     path('v1/', include('api.urls')),
     path('v1/', include('awsmail.urls')),
     path('v1/', include('aws_sns.urls')),
-    #path('v1/', include('password_reset.urls')),
 	path('v1/', include('registration.urls')),
 	path('v1/', include('confirmation.urls')),
 	path('v1/', include('invitation.urls')),

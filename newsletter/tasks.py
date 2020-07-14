@@ -1,18 +1,18 @@
 from celery import shared_task
+from django.shortcuts import render
+from sendgrid import SendGridAPIClient
+from send_email_microservice.settings import SENDGRID_API_KEY
+from sendgrid.helpers.mail import *
 from time import sleep
-from django.core.mail import send_mail
 
 
-@shared_task
-def send_email():
-    sleep(10)
-    send_mail(subject, body, from_email, [to_email])
-    return send_mail
+@shared_task()
+def send_mail(sender, recipient, subject, content):
 
-@shared_task
-def send_custom_mail():
-    sleep(10)
-    message = EmailMultiAlternatives(subject, newsletter_mail, from_email, [to_email])
-    return message
+    sg = SendGridAPIClient(api_key=SENDGRID_API_KEY)
 
+    mail = Mail(sender, recipient, subject, content)
 
+    send = sg.send(mail)
+
+    return send

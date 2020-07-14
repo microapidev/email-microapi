@@ -25,7 +25,8 @@ class SendConfirmationLink(APIView):
         request_body=ConfirmationMailSerializer,
         operation_summary="Predefined template to send confirmation email",
         operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and the confirmation url",
-        responses=MAIL_RESPONSES
+        responses=MAIL_RESPONSES,
+        tags=['Confirmation Email']
     )
 
     def post(self, request, *args, **kwargs):

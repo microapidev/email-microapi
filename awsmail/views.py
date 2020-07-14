@@ -22,7 +22,8 @@ class AwsMailView(APIView):
 		request_body=MailSerializer,
 		operation_description="Send email using AMAZON SES",
 		operation_summary="Sending email with AMAZON SES",
-		responses=MAIL_RESPONSES
+		responses=MAIL_RESPONSES,
+		tags=['Email with Amazon ses']
 	)
 	def post(self, request, *args, **kwargs):
 		serializer = MailSerializer(data=request.data)
@@ -43,7 +44,7 @@ class AwsMailView(APIView):
 				'status': 'failure',
 				'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
 				}, status=status.HTTP_400_BAD_REQUEST)
-
+			
 
 class AwsMailAttachmentView(APIView):
 	parser_classes = (MultiPartParser, FormParser,)
@@ -75,5 +76,3 @@ class AwsMailAttachmentView(APIView):
 				'status': 'failure',
 				'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
 				}, status=status.HTTP_400_BAD_REQUEST)
-
-
