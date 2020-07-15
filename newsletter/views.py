@@ -8,8 +8,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Newsletter
-from .tasks import send_email, send_custom_mail
-from .serializers import NewsletterSerializers, CustomSerializers
+from .tasks import send_mail
+from .serializers import NewsletterSerializer, CustomSerializer
 
 
 MAIL_RESPONSES = {
@@ -23,7 +23,7 @@ class DisplayAll(APIView):
     """Displays all the newsletters in the database"""
     def get(self, request):
         newsletters = Newsletter.objects.all()
-        serializer = NewsletterSerializers(newsletters, many=True)
+        serializer = NewsletterSerializer(newsletters, many=True)
         return Response(serializer.data)
 
 
@@ -31,9 +31,10 @@ class DisplayAll(APIView):
 class SendNewsletter(APIView):
     """Creates a newsletter"""
     @swagger_auto_schema(
-		request_body=NewsletterSerializer,
+		request_body=NewsletterSerializers,
 		operation_description="Sends a newsletter.",
-		responses=MAIL_RESPONSES
+		responses=MAIL_RESPONSES,
+        tags=['Send Newsletter']
 	)
 
     def post(self, request):
@@ -44,12 +45,15 @@ class SendNewsletter(APIView):
                                                             to_email=request.data['to_email'])
         serializer = NewsletterSerializers(data=request.data)
         if serializer.is_valid():
-            subject = serializer.validated_data.get('subject')
-            body = serializer.validated_data.get('body')
-            from_email = settings.EMAIL_HOST_USER
-            to_email = serializer.validated_data.get('to_email')
-            #Using a celery task to send the email created above
-            message = send_email.delay(subject, body, from_email, [to_email])
+            validated_data = serializer.validated_data
+            
+            subject = validated_data['subject']
+            content = validated_data['body']
+            sender = validated_data['from_email']
+            recipient = validated_data['to_email']
+
+            send_mail(sender, recipient, subject, content)
+
             return Response({'status': 'success',
                             'data': {'message': 'Mail Sent Successfully'}},
                             status=status.HTTP_200_OK)
@@ -63,12 +67,12 @@ class SendNewsletter(APIView):
 class SendCustomMail(APIView):
     """Sends custom(Predefined) Newsletters"""
     @swagger_auto_schema(
-		request_body=NewsletterSerializers,
+		request_body=NewsletterSerializer,
 		operation_description="Sends predefined templates.",
 		responses=MAIL_RESPONSES
 	)
     def post(self, request):
-        serializer = CustomSerializers(data=request.data)
+        serializer = CustomSerializer(data=request.data)
         if serializer.is_valid():
             #validating objects before sending them as emails
             subject = serializer.validated_data.get('subject')
@@ -76,10 +80,9 @@ class SendCustomMail(APIView):
             to_email = serializer.validated_data.get('to_email')
             with open(settings.BASE_DIR + '/newsletters/templates/newsletter.txt') as f:
                 newsletter_mail = f.read()
-            message = send_custom_mail.delay(subject, newsletter_mail, from_email, [to_email])
+            message = EmailMultiAlternatives(subject, newsletter_mail, from_email, [to_email])
             html_template = get_template('newsletter_1.html').render()
             message.attach_alternative(html_template, 'text/html')
-            #using a celery task to send the html_templated email
             message.send()
             return Response({'status': 'success',
                         'data': {'message': 'Mail Sent Successfully'}},

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     #third party apps
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     # 'rest_auth',
     # 'rest_framework_swagger',
     'drf_yasg',
@@ -50,16 +51,20 @@ INSTALLED_APPS = [
 
     #applications
     'api',
+    'scheduler',
     'newsletter',
     'awsmail',
     'aws_sns',
-    'Greetings_mail',
+    # 'greetings_mail',
     'registration',
     'confirmation',
     'invitation',
+    'send_certificate',
+    'django_q'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -69,6 +74,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -152,6 +161,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+MEDIA_URL =  '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -181,8 +192,16 @@ AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 # Celery settings
 
-CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
+
+#CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
+CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_TASK_SERIALIZER = 'json'
 
+
+#UPLOADED_FILES_USE_URL = '/upload/'
+
+Q_CLUSTER = {
+    'redis': 'redis://h:p02d42d86a48440210f71e7c6f96476aa6ee1a878fba3f8163da37d1f88f5e7ab@ec2-34-255-33-204.eu-west-1.compute.amazonaws.com:31849'
+}

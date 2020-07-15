@@ -24,7 +24,10 @@ RUN useradd appuser && chown -R appuser /app
 RUN mkdir -p /app/static
 RUN python manage.py collectstatic --noinput
 
-#USER appuser
+#run migrations
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # File wsgi.py was not found in subfolder:Team-Fierce-Backend-Python. Please enter the Python path to wsgi file.
