@@ -216,6 +216,5 @@ Q_CLUSTER = {
     'name': 'send_email_microservice',
     'workers': 8,
     'recycle': 500,
-    'timeout': None,
     'redis': os.getenv('REDIS_KEY')
 }
