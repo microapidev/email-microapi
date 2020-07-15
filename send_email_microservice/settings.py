@@ -98,6 +98,7 @@ SWAGGER_SETTINGS = {
             'name': 'Authorization'
         }
     },
+    'USE_SESSION_AUTH': False,
 }
 
 REDOC_SETTINGS = {
@@ -202,8 +203,6 @@ AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 
 # Celery settings
-
-
 #CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
 CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_ACCEPT_CONTENT = ['json']
@@ -214,5 +213,9 @@ CELERY_TASK_SERIALIZER = 'json'
 #UPLOADED_FILES_USE_URL = '/upload/'
 
 Q_CLUSTER = {
+    'name': 'send_email_microservice',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': None,
     'redis': os.getenv('REDIS_KEY')
 }
