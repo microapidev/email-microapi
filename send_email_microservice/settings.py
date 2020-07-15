@@ -91,8 +91,19 @@ REST_FRAMEWORK = {
 TOKEN_EXPIRED_AFTER_SECONDS = 86400
 
 SWAGGER_SETTINGS = {
-    'VALIDATOR_URL': 'http://localhost:8189',
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
 }
+
+REDOC_SETTINGS = {
+   'LAZY_RENDERING': False,
+}
+
 
 ROOT_URLCONF = 'send_email_microservice.urls'
 
@@ -203,5 +214,5 @@ CELERY_TASK_SERIALIZER = 'json'
 #UPLOADED_FILES_USE_URL = '/upload/'
 
 Q_CLUSTER = {
-    'redis': 'redis://h:p02d42d86a48440210f71e7c6f96476aa6ee1a878fba3f8163da37d1f88f5e7ab@ec2-34-255-33-204.eu-west-1.compute.amazonaws.com:31849'
+    'redis': os.getenv('REDIS_KEY')
 }

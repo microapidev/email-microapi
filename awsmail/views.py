@@ -53,9 +53,10 @@ class AwsMailAttachmentView(APIView):
 		request_body=MailAttachmentSerializer,
 		operation_description="Send email using AMAZON SES with attachment",
 		operation_summary="Sending email with AMAZON SES with attachment",
-		responses=MAIL_RESPONSES
+		responses=MAIL_RESPONSES,
+		tags = ['Send Mail with attachment']
 	)
-	def put(self, request, *args, **kwargs):
+	def post(self, request, *args, **kwargs):
 		serializer = MailAttachmentSerializer(data=request.data)
 	
 		if serializer.is_valid():
