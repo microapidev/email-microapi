@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AwsMail
+from .views import AwsMailView, AwsMailAttachmentView
 
 urlpatterns = [
     path('awsmail/', AwsMailView.as_view()),

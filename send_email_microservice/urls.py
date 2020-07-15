@@ -9,7 +9,8 @@ from rest_framework import permissions
 from drf_yasg.generators import OpenAPISchemaGenerator
 from drf_yasg.views import get_schema_view, SwaggerUIRenderer
 from drf_yasg import openapi
-
+from django.conf import settings
+from django.conf.urls.static import static
 # schema_view = get_swagger_view(title="Send Email Docs")
 SwaggerUIRenderer.template = 'drf-yasg.html'
 
@@ -49,3 +50,7 @@ urlpatterns = [
     # path('v1/', include('Greetings_mail.urls')),
 	path('bouncy/', include('django_bouncy.urls')),
 ]
+
+
+if settings.DEBUG:
+  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,7 +31,7 @@ class DisplayAll(APIView):
 class SendNewsletter(APIView):
     """Creates a newsletter"""
     @swagger_auto_schema(
-		request_body=NewsletterSerializer,
+		request_body=NewsletterSerializers,
 		operation_description="Sends a newsletter.",
 		responses=MAIL_RESPONSES,
         tags=['Send Newsletter']
