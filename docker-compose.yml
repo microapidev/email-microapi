@@ -30,3 +30,16 @@ services:
     depends_on:
       - teamfiercebackendpython
       - broker
+      
+  djangoq:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    command: python manage.py qcluster
+    volumes: 
+      - .:/code
+    depends_on: 
+      - teamfiercebackendpython
+      - broker
+      - worker

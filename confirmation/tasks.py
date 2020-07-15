@@ -10,6 +10,7 @@ from time import sleep
 def send_mail(sender, recipient, subject, content):
 
     sg = SendGridAPIClient(api_key=SENDGRID_API_KEY)
+    
 
     mail = Mail(sender, recipient, subject, content)
 

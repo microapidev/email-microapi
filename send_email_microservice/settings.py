@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0#iz6gmldf!6jvht^n6ub#^%m=zd85e&xw7-q3l5enrkwn%@p3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'email-microdev.herokuapp.com']
 
@@ -51,14 +51,16 @@ INSTALLED_APPS = [
 
     #applications
     'api',
+    'scheduler',
     'newsletter',
     'awsmail',
     'aws_sns',
-    'greetings_mail',
+    # 'greetings_mail',
     'registration',
     'confirmation',
     'invitation',
     'send_certificate',
+    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -190,11 +192,16 @@ AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 # Celery settings
 
+
 #CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
 CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_TASK_SERIALIZER = 'json'
 
+
 #UPLOADED_FILES_USE_URL = '/upload/'
 
+Q_CLUSTER = {
+    'redis': 'redis://h:p02d42d86a48440210f71e7c6f96476aa6ee1a878fba3f8163da37d1f88f5e7ab@ec2-34-255-33-204.eu-west-1.compute.amazonaws.com:31849'
+}
