@@ -9,6 +9,7 @@ from sendgrid.helpers.mail import Content
 from rest_framework import mixins
 from rest_framework import generics
 from .tasks import send_mail
+from awsmail.tasks import send_aws_mail
 
 
 MAIL_RESPONSES = {
@@ -43,12 +44,21 @@ class SendRegistrationMail(APIView):
             html_content = get_template('registration/welcome_mail_template.html').render(context)
             content = Content("text/html", html_content)
 
-            send_mail(sender, recipient, subject, content)
-
-            return Response({
+            if validated_data.get('backend_type') == 'aws':
+                send_aws_mail(subject, content, sender, recipient)
+                return Response({
                 'status': 'Successful',
-                'message': 'Welcome mail successfully sent'
+                'message': 'Confirmation link successfully sent'
             }, status=status.HTTP_200_OK)
+                
+            else:
+                send_mail(sender, recipient, subject, content)
+                return Response({
+                'status': 'Successful',
+                'message': 'Confirmation link successfully sent'
+            }, status=status.HTTP_200_OK)
+            
+            
         else:
             return Response({
                 'status': 'failure',

@@ -9,3 +9,4 @@ class RegistrationMailSerializer(serializers.Serializer):
     site_name = serializers.CharField()
     registration_link = serializers.CharField()
     sender = serializers.EmailField()
+    backend_type = serializers.CharField(required=False, allow_blank=True)
