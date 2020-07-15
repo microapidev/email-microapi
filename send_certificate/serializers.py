@@ -5,3 +5,4 @@ class SendCertificateSerializer(serializers.Serializer):
     participant_name = serializers.CharField()
     certificate_link = serializers.CharField()
     sender = serializers.EmailField()
+    backend_type = serializers.CharField(required=False, allow_blank=True)

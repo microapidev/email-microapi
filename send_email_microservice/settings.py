@@ -188,7 +188,7 @@ prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 #SMTP SERVER SETTINGS SENDGRID
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+SENDGRID_API_KEY = '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'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
