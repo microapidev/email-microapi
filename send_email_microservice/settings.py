@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     #applications
     'api',
+    'scheduler',
     'newsletter',
     'awsmail',
     'aws_sns',
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     'confirmation',
     'invitation',
     'send_certificate',
+    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -188,8 +190,11 @@ AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 # Celery settings
 
-CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
+CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_TASK_SERIALIZER = 'json'
 
+Q_CLUSTER = {
+    'redis': 'redis://h:p02d42d86a48440210f71e7c6f96476aa6ee1a878fba3f8163da37d1f88f5e7ab@ec2-34-255-33-204.eu-west-1.compute.amazonaws.com:31849'
+}

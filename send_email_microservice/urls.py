@@ -45,6 +45,7 @@ urlpatterns = [
 	path('v1/', include('invitation.urls')),
 	path('v1/', include('newsletter.urls')),
 	path('v1/', include('send_certificate.urls')),
+	path('v1/', include('scheduler.urls')),
     # path('v1/', include('Greetings_mail.urls')),
 	path('bouncy/', include('django_bouncy.urls')),
 ]
