@@ -57,14 +57,19 @@ class SendCertificateLink(APIView):
                 send_aws_mail(subject, message.as_string(), sender, recipient)
                 return Response({
                 'status': 'Successful',
-                'message': 'Confirmation link successfully sent'
+                'data': {
+                    'message': 'Confirmation link successfully sent'
+                }
+                
             }, status=status.HTTP_200_OK)
                 
             else:
                 send_mail(sender, recipient, subject, content)
                 return Response({
                 'status': 'Successful',
-                'message': 'Confirmation link successfully sent'
+                'data': {
+                    'message': 'Confirmation link successfully sent'
+                }
             }, status=status.HTTP_200_OK)
             
             

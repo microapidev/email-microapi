@@ -48,8 +48,8 @@ urlpatterns = [
 	path('v1/', include('send_certificate.urls')),
 	path('v1/', include('scheduler.urls')),
     # path('v1/', include('Greetings_mail.urls')),
-	path('bouncy/', include('django_bouncy.urls')),
-	path('v1/', include('bounce_notification.urls')),
+	# path('bouncy/', include('django_bouncy.urls')),
+	# path('v1/', include('bounce_notification.urls')),
 ]
 
 

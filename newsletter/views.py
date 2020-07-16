@@ -43,7 +43,7 @@ class SendNewsletter(APIView):
                                                             body=request.data['body'],
                                                             from_email=settings.EMAIL_HOST_USER,
                                                             to_email=request.data['to_email'])
-        serializer = NewsletterSerializers(data=request.data)
+        serializer = NewsletterSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
             
@@ -78,10 +78,10 @@ class SendCustomMail(APIView):
             subject = serializer.validated_data.get('subject')
             from_email = settings.EMAIL_HOST_USER
             to_email = serializer.validated_data.get('to_email')
-            with open(settings.BASE_DIR + '/newsletters/templates/newsletter.txt') as f:
+            with open(settings.BASE_DIR + '/newsletter/newsletter.txt') as f:
                 newsletter_mail = f.read()
             message = EmailMultiAlternatives(subject, newsletter_mail, from_email, [to_email])
-            html_template = get_template('newsletter_1.html').render()
+            html_template = get_template('newsletter/newsletter_1.html').render()
             message.attach_alternative(html_template, 'text/html')
             message.send()
             return Response({'status': 'success',
