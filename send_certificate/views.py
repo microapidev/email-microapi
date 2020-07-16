@@ -11,6 +11,9 @@ from django.template.loader import get_template
 from .tasks import send_mail
 from rest_framework import mixins
 from rest_framework import generics
+from awsmail.tasks import send_aws_mail
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 import os
 
@@ -44,15 +47,31 @@ class SendCertificateLink(APIView):
             html_content = get_template('send_certificate/certificate_link.html').render(context)
             content = Content("text/html", html_content)
 
-            send_mail(sender, recipient, subject, content)
-
-            return Response({
+            if validated_data.get('backend_type') == 'aws':
+                message = MIMEMultipart('alternative')
+                message['Subject'] = subject
+                message['From'] = sender
+                message['To'] = recipient
+                messageTemp = MIMEText(html_content, 'html')
+                message.attach(messageTemp)
+                send_aws_mail(subject, message.as_string(), sender, recipient)
+                return Response({
                 'status': 'Successful',
-                'data':{
-                    'message': 'Certificate link successfully sent'
+                'data': {
+                    'message': 'Confirmation link successfully sent'
                 }
                 
             }, status=status.HTTP_200_OK)
+                
+            else:
+                send_mail(sender, recipient, subject, content)
+                return Response({
+                'status': 'Successful',
+                'data': {
+                    'message': 'Confirmation link successfully sent'
+                }
+            }, status=status.HTTP_200_OK)
+            
             
         else:
             return Response({
