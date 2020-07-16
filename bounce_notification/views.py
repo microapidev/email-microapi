@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from django.conf import settings
-
+from drf_yasg.utils import swagger_auto_schema
 
 class BounceNotification(APIView):
     """Receives a bounce notification from Amazon SNS"""
