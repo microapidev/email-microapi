@@ -38,7 +38,12 @@ class SendNewsletter(APIView):
 	)
 
     def post(self, request):
-        serializer = NewsletterSerializer(data=request.data)
+        #creating the objects to be saved to the database
+        newsletter = Newsletter.objects.create(subject=request.data['subject'],
+                                                            body=request.data['body'],
+                                                            from_email=settings.EMAIL_HOST_USER,
+                                                            to_email=request.data['to_email'])
+        serializer = NewsletterSerializers(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
             
@@ -69,6 +74,7 @@ class SendCustomMail(APIView):
     def post(self, request):
         serializer = CustomSerializer(data=request.data)
         if serializer.is_valid():
+            #validating objects before sending them as emails
             subject = serializer.validated_data.get('subject')
             from_email = settings.EMAIL_HOST_USER
             to_email = serializer.validated_data.get('to_email')
@@ -77,7 +83,7 @@ class SendCustomMail(APIView):
             message = EmailMultiAlternatives(subject, newsletter_mail, from_email, [to_email])
             html_template = get_template('newsletter_1.html').render()
             message.attach_alternative(html_template, 'text/html')
-            send_custom_mail.send.delay()
+            message.send()
             return Response({'status': 'success',
                         'data': {'message': 'Mail Sent Successfully'}},
                         status=status.HTTP_200_OK)
