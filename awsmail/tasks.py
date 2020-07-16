@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 
 @shared_task()
 def send_aws_mail(subject, body, sender, recipient):
-    send_mail(subject, body, sender, [recipient], fail_silently=False)
+    send_mail(subject, body, sender, [recipient])
     return send_mail()
 
 @shared_task()
