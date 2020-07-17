@@ -15,7 +15,7 @@ from django.conf.urls.static import static
 SwaggerUIRenderer.template = 'drf-yasg.html'
 
 class SchemaGenerator(OpenAPISchemaGenerator):
-	def get_schema(self, request=None, public=False):
+	def get_schema(self, request=None, public=True):
 		schema = super(SchemaGenerator, self).get_schema(request, public)
 		schema.basePath = os.path.join(schema.basePath, '')
 		return schema
@@ -27,9 +27,8 @@ schema_view = get_schema_view(
 		default_version='v1',
 		description="A simple service for sending emails.",
 	),
-	public=False,
-	generator_class = SchemaGenerator,
-	urlconf = "send_email_microservice.urls",
+	public=True,
+	# url='https://email.microapi.dev/v1/',
 	permission_classes=(permissions.AllowAny,),
 )
 
