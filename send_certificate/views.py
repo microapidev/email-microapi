@@ -15,6 +15,7 @@ from awsmail.tasks import send_aws_mail
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+
 import os
 
 MAIL_RESPONSES = {
@@ -27,7 +28,7 @@ class SendCertificateLink(APIView):
     @swagger_auto_schema(
         request_body=SendCertificateSerializer,
         operation_summary="Predefined template to send out certificatee links to participants",
-        operation_description="Sends certificate links, it takes in parameters such as sender, recipient , body(which can be left empty), and the link to download the certificate",
+        operation_description="Sends certificate links, it takes in parameters such as sender, recipient , and the link to download the certificate, you can also specify what type of service to send mail with amazon or SMTP.",
         responses=MAIL_RESPONSES,
         tags=['Certificate Email']
     )
@@ -48,17 +49,11 @@ class SendCertificateLink(APIView):
             content = Content("text/html", html_content)
 
             if validated_data.get('backend_type') == 'aws':
-                message = MIMEMultipart('alternative')
-                message['Subject'] = subject
-                message['From'] = sender
-                message['To'] = recipient
-                messageTemp = MIMEText(html_content, 'html')
-                message.attach(messageTemp)
-                send_aws_mail(subject, message.as_string(), sender, recipient)
+                send_aws_mail(subject, '', sender, recipient, tmpl=html_content)
                 return Response({
                 'status': 'Successful',
                 'data': {
-                    'message': 'Confirmation link successfully sent'
+                    'message': 'Certificate link successfully sent'
                 }
                 
             }, status=status.HTTP_200_OK)
@@ -68,7 +63,7 @@ class SendCertificateLink(APIView):
                 return Response({
                 'status': 'Successful',
                 'data': {
-                    'message': 'Confirmation link successfully sent'
+                    'message': 'Certificate link successfully sent'
                 }
             }, status=status.HTTP_200_OK)
             
