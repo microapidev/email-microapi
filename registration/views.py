@@ -37,7 +37,7 @@ class SendRegistrationMail(APIView):
                 'sender': validated_data['sender'],
                 'domain_name': validated_data['site_name'],
                 'description': validated_data.get('body'),
-                'site_url': validated_data['registration_link']
+                'site_url': validated_data['login_link']
             }
             subject = 'Welcome Esteemed Customer'
             recipient = validated_data['recipient']
@@ -46,13 +46,7 @@ class SendRegistrationMail(APIView):
             content = Content("text/html", html_content)
 
             if validated_data.get('backend_type') == 'aws':
-                message = MIMEMultipart('alternative')
-                message['Subject'] = subject
-                message['From'] = sender
-                message['To'] = recipient
-                messageTemp = MIMEText(html_content, 'html')
-                message.attach(messageTemp)
-                send_aws_mail(subject, message.as_string(), sender, recipient)
+                send_aws_mail(subject, '', sender, recipient, tmpl=html_content)
                 return Response({
                 'status': 'Successful',
                 'message': 'Confirmation link successfully sent'

@@ -8,6 +8,7 @@ from drf_yasg.utils import swagger_auto_schema
 from sendgrid.helpers.mail import *
 from .serializers import EmailSchedulingSerializer
 from django.template.loader import get_template
+from rest_framework.parsers import MultiPartParser, FormParser
 # from .tasks import send_mail
 from rest_framework import mixins
 from rest_framework import generics
@@ -26,6 +27,7 @@ MAIL_RESPONSES = {
 }
 
 class SendSchduledEmail(APIView):
+    parser_classes = (MultiPartParser, FormParser,)
     @swagger_auto_schema(
         request_body=EmailSchedulingSerializer,
         operation_summary="Predefined template to send confirmation email",
@@ -38,25 +40,27 @@ class SendSchduledEmail(APIView):
         serializer= EmailSchedulingSerializer(data=request.data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
-            subject = 'Scheduled Email'
-            body = 'This is a scheduled email, you will receive a follow up email in 10 seconds'
+            subject = serializer.validated_data['subject']
+            body = serializer.validated_data['body']
             recipient = validated_data['recipient']
             sender = validated_data['sender']
+
+            msg = 'You have schedduled an email'
         
             # # send this message right away
-            async_task('django.core.mail.send_mail', subject, body, sender, [recipient])
+            async_task('django.core.mail.send_mail', 'You have scheduled an email', msg, sender, [recipient])
             
             # and this follow up email in one hour
-            msg = 'Here are some tips to get you started...'
             
-            schedule('django.core.mail.send_mail', 'Follow up', msg, sender, [recipient],
+            
+            schedule('django.core.mail.send_mail', subject, body, sender, [recipient],
                 schedule_type=Schedule.ONCE,
                 next_run=timezone.now() + timedelta(seconds=10))
             
             return Response({
                 'status': 'Successful',
                 'data': {
-                    'message': 'Confirmation link successfully sent'
+                    'message': 'Scheduled email successfully sent'
                 }
             }, status=status.HTTP_200_OK)
             

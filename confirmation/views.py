@@ -40,7 +40,7 @@ class SendConfirmationLink(APIView):
                 'sender': validated_data['sender'],
                 'domain_name': validated_data['site_name'],
                 'description': validated_data.get('body'),
-                'confirmation_link': validated_data['registration_link']
+                'confirmation_link': validated_data['confirmation_link']
             }
             print(validated_data.get('backend_type'))
             subject = 'Account Confirmation'
