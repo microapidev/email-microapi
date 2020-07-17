@@ -10,8 +10,6 @@ from rest_framework import mixins
 from rest_framework import generics
 from .tasks import send_mail
 from awsmail.tasks import send_aws_mail
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 
 MAIL_RESPONSES = {
     '200': 'Mail sent successfully.',
@@ -45,29 +43,19 @@ class SendInvitationLink(APIView):
                 content = Content("text/html", html_content)
 
                 if validated_data.get('backend_type') == 'aws':
-                    message = MIMEMultipart('alternative')
-                    message['Subject'] = subject
-                    message['From'] = sender
-                    message['To'] = recipient
-                    messageTemp = MIMEText(html_content, 'html')
-                    message.attach(messageTemp)
-                    send_aws_mail(subject, message.as_string(), sender, recipient)
+                    send_aws_mail(subject, '', sender, recipient, tmpl=html_content)
                     return Response({
                     'status': 'Successful',
-                    'message': 'Confirmation link successfully sent'
+                    'message': 'Invitation link successfully sent'
                 }, status=status.HTTP_200_OK)
                     
                 else:
                     send_mail(sender, recipient, subject, content)
                     return Response({
                     'status': 'Successful',
-                    'message': 'Confirmation link successfully sent'
+                    'message': 'Invitation link successfully sent'
                     }, status=status.HTTP_200_OK)
                     
-                return Response({
-                    'status': 'success',
-                    'data': {'message': 'Invitation Sent Successfully'}
-                }, status=status.HTTP_200_OK)
             else:
                 return Response({
                     'status': 'failure',
