@@ -30,8 +30,8 @@ class SendSchduledEmail(APIView):
     parser_classes = (MultiPartParser, FormParser,)
     @swagger_auto_schema(
         request_body=EmailSchedulingSerializer,
-        operation_summary="Predefined template to send confirmation email",
-        operation_description="Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and the confirmation url",
+        operation_summary="Schedule an email",
+        operation_description="",
         responses=MAIL_RESPONSES,
         tags=['Scheduled Email']
     )
