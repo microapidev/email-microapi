@@ -39,7 +39,3 @@ services:
     command: python manage.py qcluster
     volumes: 
       - .:/code
-    depends_on: 
-      - teamfiercebackendpython
-      - broker
-      - worker
