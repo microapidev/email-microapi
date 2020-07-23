@@ -2,6 +2,7 @@ import boto3
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
