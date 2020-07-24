@@ -28,7 +28,7 @@ schema_view = get_schema_view(
 		description="A simple service for sending emails.",
 	),
 	public=True,
-	# url='https://email.microapi.dev/v1/',
+	url='https://email.microapi.dev/v1/',
 	permission_classes=(permissions.AllowAny,),
 )
 

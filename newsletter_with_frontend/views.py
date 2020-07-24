@@ -5,13 +5,15 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from .serializer import UserProfileSerializers, EditSerializer
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 
-@swagger_auto_schema(
-    request_body=UserProfileSerializers,
-    operation_description="Gets User Profile and Contents.",
-    tags=['Gets User Profile and Contents']
+# @swagger_auto_schema(
+#     request_body=UserProfileSerializers,
+#     operation_description="Gets User Profile and Contents.",
+#     tags=['Gets User Profile and Contents']
 	
 @api_view(['GET'])
 def profile_list(request):
@@ -22,10 +24,10 @@ def profile_list(request):
         return Response(serializer.data)
 
 
-@swagger_auto_schema(
-    request_body=UserProfileSerializers,
-    operation_description="Gets, PUTS and DELETE User Profile and Contents.",
-    tags=['Gets User Profile and Contents']
+# @swagger_auto_schema(
+#     request_body=UserProfileSerializers,
+#     operation_description="Gets, PUTS and DELETE User Profile and Contents.",
+#     tags=['Gets User Profile and Contents']
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def get_user_profile(request, pk):
@@ -47,9 +49,19 @@ def get_user_profile(request, pk):
             sender = settings.EMAIL_HOST_USER
             send_mail(subject, content, sender, [recipient])
             serializer.save()
-            return Response(serializer.data)
+            return Response('Newsletter sent')
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+def editor(request, pk):
+    try:
+        user = UserProfile.objects.get(pk=pk)
+    except UserProfile.DoesNotExist:
+        return Response("id doesn't exist",status=status.HTTP_404_NOT_FOUND)
+    return render(request, 'newsletter_with_frontend/editor.html', {'user' : user})
+
+def snippets(request):
+    return render(request, 'newsletter_with_frontend/snippets.html')
