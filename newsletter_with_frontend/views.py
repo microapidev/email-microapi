@@ -22,6 +22,10 @@ def profile_list(request):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(
+    request_body=UserProfileSerializers,
+    operation_description="Gets, PUTS and DELETE User Profile and Contents.",
+    tags=['Gets User Profile and Contents']
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def get_user_profile(request, pk):
@@ -37,12 +41,15 @@ def get_user_profile(request, pk):
     elif request.method == 'PUT':
         serializer = EditSerializer(user, data=request.data)
         if serializer.is_valid():
+            subject = serializer.validated_data.get("subject")
+            content = serializer.validated_data.get("content")
+            recipient = serializer.validated_data.get("recipient")
+            sender = settings.EMAIL_HOST_USER
+            send_mail(subject, content, sender, [recipient])
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-

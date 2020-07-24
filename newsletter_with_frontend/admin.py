@@ -6,6 +6,9 @@ class AdminUserProfile(admin.ModelAdmin):
     list_display = [
         "user",
         "content",
+        'sender',
+        "subject",
+        "recipient",
         "created",
     ]
 
