@@ -5,7 +5,13 @@ from django.dispatch import receiver
 
 
 class UserProfile(models.Model):
+    class Meta:
+        verbose_name = "User Profile"
+        verbose_name_plural = "User Profile"
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=120, default='')
+    sender = models.CharField(max_length=120, default='')
+    recipient = models.CharField(max_length=250, default='')
     content = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -17,6 +23,6 @@ class UserProfile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
-    instance.profile.save()
+    instance.userprofile.save()
 
 
