@@ -8,10 +8,10 @@ from .serializer import UserProfileSerializers, EditSerializer
 
 
 
-# @swagger_auto_schema(
-#     request_body=UserProfileSerializers,
-#     operation_description="Gets User Profile and Contents.",
-#     tags=['Gets User Profile and Contents']
+@swagger_auto_schema(
+    request_body=UserProfileSerializers,
+    operation_description="Gets User Profile and Contents.",
+    tags=['Gets User Profile and Contents']
 	
 @api_view(['GET'])
 def profile_list(request):
@@ -22,10 +22,10 @@ def profile_list(request):
         return Response(serializer.data)
 
 
-# @swagger_auto_schema(
-#     request_body=UserProfileSerializers,
-#     operation_description="Gets, PUTS and DELETE User Profile and Contents.",
-#     tags=['Gets User Profile and Contents']
+@swagger_auto_schema(
+    request_body=UserProfileSerializers,
+    operation_description="Gets, PUTS and DELETE User Profile and Contents.",
+    tags=['Gets User Profile and Contents']
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def get_user_profile(request, pk):
