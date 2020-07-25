@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Newsletter Template Editor</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'newsletter_with_frontend/plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}" data-type="keditor-style" />
+        <link rel="stylesheet" type="text/css" href="{% static 'newsletter_with_frontend/plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" data-type="keditor-style" />
+        <!-- Start of KEditor styles -->
+        <link rel="stylesheet" type="text/css" href="{% static 'newsletter_with_frontend/dist/css/keditor.css' %}" data-type="keditor-style" />
+        <link rel="stylesheet" type="text/css" href="{% static 'newsletter_with_frontend/dist/css/keditor-components.css' %}" data-type="keditor-style" />
+        <!-- End of KEditor styles -->
+        <link rel="stylesheet" type="text/css" href="{% static 'newsletter_with_frontend/plugins/code-prettify/src/prettify.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'newsletter_with_frontend/css/examples.css' %}" />
+    </head>
+    
+    <body style="overflow: auto" style="padding:50%">
+    
+<!--        <div class="btn btn-info btn-lg" id="save">Save</div>-->
+        <p id="message_p" style="text-align:center"><input class="form-control" type="text" id="subject" placeholder="Please Enter subject" style="margin-top:0px;margin-left:2%; width:300px !important;height:50px; float:left"><input class="form-control" type="email" id="email" placeholder="Please Enter reciever's e-mail address" style="margin-top:10px;padding-left:5%; width:400px !important;height:50px"></p>
+        
+        <div data-keditor="html" style="padding:0% 2% 2% 2%">
+        <input id="u_id" type="hidden" value="{{user.id}}">
+            <div id="content-area">
+
+            {% if user.content %}
+            {{user.content | safe}}
+            {% else %}
+<div class="row" bis_size="{&quot;x&quot;:15,&quot;y&quot;:449,&quot;w&quot;:1271,&quot;h&quot;:252,&quot;abs_x&quot;:41,&quot;abs_y&quot;:525}">
+            <div class="col-sm-12 ui-resizable col-lg-12" data-type="container-content" bis_size="{&quot;x&quot;:15,&quot;y&quot;:449,&quot;w&quot;:1271,&quot;h&quot;:252,&quot;abs_x&quot;:41,&quot;abs_y&quot;:525}" style=""><div data-type="component-text">
+<h1 style="text-align: center;"><span style="color:#2980b9;">Heading text 1</span></h1>
+
+<p style="text-align: center;"><span style="color:#2980b9;">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</span></p>
+
+<p style="text-align: center;"><span style="color:#2980b9;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro labore architecto fuga tempore omnis aliquid, rerum numquam deleniti ipsam earum velit aliquam deserunt, molestiae officiis mollitia accusantium suscipit fugiat esse magnam eaque cumque, iste corrupti magni? Illo dicta saepe, maiores fugit aliquid consequuntur aut, rem ex iusto dolorem molestias obcaecati eveniet vel voluptatibus recusandae illum, voluptatem! Odit est possimus nesciunt.</span></p>
+</div>
+</div>
+        </div><div class="row">
+        <div class="col-sm-4 ui-resizable" data-type="container-content"><div data-type="component-photo">
+                <div class="photo-panel">
+                    <img src="{% static 'newsletter_with_frontend/snippets/img/somewhere_bangladesh_squared.jpg' %}" width="100%" height="" style="display: inline-block;" class="img-circle">
+                </div>
+            </div><div data-type="component-text">
+<h3 style="text-align: center;">Lorem ipsum</h3>
+
+<p style="text-align: center;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel, alias, temporibus? Vero natus modi ipsa debitis, accusamus accusantium cum quam. Saepe atque quisquam pariatur voluptatem expedita reprehenderit et vitae.</p>
+</div>
+</div>
+        <div class="col-sm-4 ui-resizable" data-type="container-content"><div data-type="component-photo">
+                <div class="photo-panel">
+                    <img src="{% static 'newsletter_with_frontend/snippets/img/wellington_newzealand_squared.jpg' %}" width="100%" height="" style="display: inline-block;" class="img-circle">
+                </div>
+            </div><div data-type="component-text">
+<h3 style="text-align: center;">Lorem ipsum</h3>
+
+<p style="text-align: center;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, aut, earum. Quod, debitis, delectus. Maxime eius ipsam sit dolorum perspiciatis obcaecati consectetur, explicabo reprehenderit repellat tempore eos ducimus!</p>
+</div>
+</div>
+        <div class="col-sm-4 ui-resizable" data-type="container-content"><div data-type="component-photo">
+                <div class="photo-panel">
+                    <img src="{% static 'newsletter_with_frontend/snippets/img/yenbai_vietnam_squared.jpg' %}" width="100%" height="" style="display: inline-block;" class="img-circle">
+                </div>
+            </div><div data-type="component-text">
+<h3 style="text-align: center;">Lorem ipsum</h3>
+
+<p style="text-align: center;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil voluptatibus dicta corrupti aliquam, natus voluptatem pariatur quidem nostrum nisi corporis id ratione exercitationem et recusandae incidunt assumenda soluta qui odit.</p>
+</div>
+</div>
+    </div><div class="row">
+            <div class="col-sm-12 ui-resizable" data-type="container-content"><div data-type="component-text">
+<div class="jumbotron">
+<h1 style="text-align: center;">Hello, world!</h1>
+
+<p style="text-align: center;">This is a simple hero unit</p>
+
+<p style="text-align: center;"><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
+</div>
+</div>
+        </div><div class="row">
+            <div class="col-sm-12 ui-resizable" data-type="container-content"><div class="page-header" data-type="component-text">
+<h1 style="margin-bottom: 30px; font-size: 50px; text-align: center;"><span style="font-size:12px;"><em>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</em></span></h1>
+</div>
+</div>
+        </div>
+        {% endif %}
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/jquery-1.11.3/jquery-1.11.3.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/ckeditor-4.11.4/ckeditor.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/formBuilder-2.5.3/form-builder.min.j' %}s"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/formBuilder-2.5.3/form-render.min.js' %}"></script>
+        <!-- Start of KEditor scripts -->
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/dist/js/keditor.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/dist/js/keditor-components.js' %}"></script>
+        <!-- End of KEditor scripts -->
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/code-prettify/src/prettify.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/js-beautify-1.7.5/js/lib/beautify.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/plugins/js-beautify-1.7.5/js/lib/beautify-html.js' %}"></script>
+        <script type="text/javascript" src="{% static 'newsletter_with_frontend/js/examples.js' %}"></script>
+        <script type="text/javascript" data-keditor="script">
+            $(function () {
+                $('#content-area').keditor();
+                KEditor.prototype.addSnippet(categories, content);
+                $('#save').click(function(){
+                    $.ajax({
+
+                    type: "POST",
+                    url: hb_base_url + "consumer",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                               action: "send-content",
+                            content: $('#content-area').keditor('getContent')
+                    }),
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }       
+
+                           
+                           });
+                    console.log($('#content-area').keditor('getContent'));
+                });
+                
+            });
+        </script>
+<!--
+        <div id="editor">
+    <p>This is the editor content.</p>
+</div>
+<script src="./node_modules/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor' );
+</script>
+-->
+    </body>
+</html>

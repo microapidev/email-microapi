@@ -60,7 +60,8 @@ INSTALLED_APPS = [
     'confirmation',
     'invitation',
     'send_certificate',
-    'django_q'
+    'django_q',
+    'newsletter_with_frontend',
 ]
 
 MIDDLEWARE = [
