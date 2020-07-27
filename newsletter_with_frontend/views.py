@@ -45,12 +45,29 @@ def get_user_profile(request, pk):
         if serializer.is_valid():
             subject = serializer.validated_data.get("subject")
             content = serializer.validated_data.get("content")
+            # concatenating the email template and the user's content
+            content = "{% load static %}" + content
+            # Replacing a path for serving the static files(images) precisely
+            content = content.replace("/static/", "http://127.0.0.1:8000/static/")
             recipient = serializer.validated_data.get("recipient")
             sender = settings.EMAIL_HOST_USER
-            send_mail(subject, content, sender, [recipient])
+            # striped_tags = strip_tags(content)
+            # send_mail(subject, striped_tags, sender, [recipient])
+            with open(settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html', 'w') as f:
+                newsletter_mail = f.write(content)
+            with open(settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html') as f:
+                newsletter_mail = f.read()
+                newsletter_name = f.name
+                newsletter_txt = strip_tags(newsletter_mail)
+
+            html_template = get_template('newsletter_with_frontend/mail.html').render()
+            message = EmailMultiAlternatives(subject, newsletter_txt, sender, [recipient])
+            message.attach_alternative(html_template, 'text/html')
+            message.send()
+
             serializer.save()
             return Response('Newsletter sent')
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         user.delete()
