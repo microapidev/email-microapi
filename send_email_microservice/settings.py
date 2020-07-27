@@ -203,11 +203,6 @@ AWS_SES_REGION_NAME = 'eu-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'immanuelomeogah@gmail.com' # this is exactly the value 'apikey'
-EMAIL_HOST_PASSWORD = 'omeogah2013'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 
 
 # Celery settings
