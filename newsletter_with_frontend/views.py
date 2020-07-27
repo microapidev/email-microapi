@@ -6,6 +6,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from .serializer import UserProfileSerializers, EditSerializer
 from django.conf import settings
+from django.template import
+from django.utils.html import strip_tags
 from django.core.mail import send_mail
 
 
@@ -53,9 +55,13 @@ def get_user_profile(request, pk):
             sender = settings.EMAIL_HOST_USER
             # striped_tags = strip_tags(content)
             # send_mail(subject, striped_tags, sender, [recipient])
-            with open(settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html', 'w') as f:
+            with open(
+                settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html', 'w'
+                ) as f:
                 newsletter_mail = f.write(content)
-            with open(settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html') as f:
+            with open(
+                settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html'
+                ) as f:
                 newsletter_mail = f.read()
                 newsletter_name = f.name
                 newsletter_txt = strip_tags(newsletter_mail)
