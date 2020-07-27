@@ -204,7 +204,6 @@ AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 
 
-
 # Celery settings
 CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
 # CELERY_BROKER_URL = 'amqp://localhost'
