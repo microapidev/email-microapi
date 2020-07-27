@@ -6,7 +6,6 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from .serializer import UserProfileSerializers, EditSerializer
 from django.conf import settings
-from django.template import
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
 
