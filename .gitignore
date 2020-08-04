@@ -9,3 +9,4 @@ emailapp/
 __pycache__/
 staticfiles/
 env.example
+*.pyc
