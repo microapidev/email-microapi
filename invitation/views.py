@@ -9,6 +9,7 @@ from sendgrid.helpers.mail import Content
 from rest_framework import mixins
 from rest_framework import generics
 from .tasks import send_mail
+from awsmail.tasks import send_aws_mail
 
 MAIL_RESPONSES = {
     '200': 'Mail sent successfully.',
@@ -41,16 +42,24 @@ class SendInvitationLink(APIView):
                 html_content = render_to_string('invitation/email_invitation_template.html', {'sender': sender, 'site_name':site_name, 'description': description, 'registration_link':registration_page_link})
                 content = Content("text/html", html_content)
 
-                send_mail(sender, recipient, subject, content)
-
-                return Response({
-                    'status': 'success',
-                    'data': {'message': 'Invitation Sent Successfully'}
+                if validated_data.get('backend_type') == 'aws':
+                    send_aws_mail(subject, '', sender, recipient, tmpl=html_content)
+                    return Response({
+                    'status': 'Successful',
+                    'message': 'Invitation link successfully sent'
                 }, status=status.HTTP_200_OK)
+                    
+                else:
+                    send_mail(sender, recipient, subject, content)
+                    return Response({
+                    'status': 'Successful',
+                    'message': 'Invitation link successfully sent'
+                    }, status=status.HTTP_200_OK)
+                    
             else:
                 return Response({
                     'status': 'failure',
-                    'data': {'message': 'Something went wrong', 'errors': serializer.errors}
-                }, status=status.HTTP_501_NOT_IMPLEMENTED)
+                    'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+                }, status=status.HTTP_400_BAD_REQUEST)
 
 

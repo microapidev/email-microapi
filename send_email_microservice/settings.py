@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     #applications
     'api',
+    'scheduler',
     'newsletter',
     'awsmail',
     'info',
@@ -59,6 +60,8 @@ INSTALLED_APPS = [
     'confirmation',
     'invitation',
     'send_certificate',
+    'django_q',
+    'newsletter_with_frontend',
 ]
 
 MIDDLEWARE = [
@@ -89,8 +92,20 @@ REST_FRAMEWORK = {
 TOKEN_EXPIRED_AFTER_SECONDS = 86400
 
 SWAGGER_SETTINGS = {
-    'VALIDATOR_URL': 'http://localhost:8189',
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+    'USE_SESSION_AUTH': False,
 }
+
+REDOC_SETTINGS = {
+   'LAZY_RENDERING': False,
+}
+
 
 ROOT_URLCONF = 'send_email_microservice.urls'
 
@@ -180,7 +195,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
 
-#AMAZON SES SETTINGS
+# #AMAZON SES SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -188,13 +203,17 @@ AWS_SES_REGION_NAME = 'eu-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 
-# Celery settings
 
-#CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
-CELERY_BROKER_URL = 'amqp://localhost'
+# Celery settings
+CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
+# CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
 CELERY_TASK_SERIALIZER = 'json'
 
+
 #UPLOADED_FILES_USE_URL = '/upload/'
 
+Q_CLUSTER = {
+    'redis': os.getenv('REDIS_KEY')
+}

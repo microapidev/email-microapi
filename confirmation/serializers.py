@@ -6,5 +6,6 @@ class ConfirmationMailSerializer(serializers.Serializer):
     recipient = serializers.EmailField()
     body = serializers.CharField(required=False, allow_blank=True)
     site_name = serializers.CharField()
-    registration_link = serializers.CharField()
+    confirmation_link = serializers.CharField()
     sender = serializers.EmailField()
+    backend_type = serializers.CharField(required=False, allow_blank=True)

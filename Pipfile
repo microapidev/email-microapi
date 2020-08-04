@@ -55,6 +55,8 @@ Jinja2 = "==2.11.2"
 MarkupSafe = "==1.1.1"
 "ruamel.yaml" = "==0.16.10"
 "ruamel.yaml.clib" = "==0.2.0"
+django-cors-headers = "*"
+django-q = "*"
 
 [requires]
 python_version = "3.6"
