@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'send_certificate',
     'django_q',
     'newsletter_with_frontend',
+    'apitest',
+
 ]
 
 MIDDLEWARE = [
