@@ -45,21 +45,22 @@ class SendInvitationLink(APIView):
                 if validated_data.get('backend_type') == 'aws':
                     send_aws_mail(subject, '', sender, recipient, tmpl=html_content)
                     return Response({
-                    'status': 'Successful',
-                    'message': 'Invitation link successfully sent'
+                    'message': 'Invitation link successfully sent',
+                    'success': True,
                 }, status=status.HTTP_200_OK)
                     
                 else:
                     send_mail(sender, recipient, subject, content)
                     return Response({
-                    'status': 'Successful',
-                    'message': 'Invitation link successfully sent'
+                    'message': 'Invitation link successfully sent',
+                    'success': True
                     }, status=status.HTTP_200_OK)
                     
             else:
                 return Response({
-                    'status': 'failure',
-                    'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+                    'message': 'Incorrect request format.',
+                    'errors': serializer.errors,
+                    'success': False,
                 }, status=status.HTTP_400_BAD_REQUEST)
 
 

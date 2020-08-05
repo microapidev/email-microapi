@@ -58,20 +58,21 @@ class SendConfirmationLink(APIView):
                 message.attach(messageTemp)
                 send_aws_mail(subject, message.as_string(), sender, recipient)
                 return Response({
-                'status': 'Successful',
-                'message': 'Confirmation link successfully sent'
-            }, status=status.HTTP_200_OK)
+                'message': 'Confirmation link successfully sent',
+                'success': True,
+                }, status=status.HTTP_200_OK)
                 
             else:
                 send_mail(sender, recipient, subject, content)
                 return Response({
-                'status': 'Successful',
-                'message': 'Confirmation link successfully sent'
+                'message': 'Confirmation link successfully sent',
+                'success': True,
             }, status=status.HTTP_200_OK)
             
             
         else:
             return Response({
-                'status': 'failure',
-                'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+                'message': 'Incorrect request format.',
+                'errors': serializer.errors,
+                'success': False,
             }, status=status.HTTP_400_BAD_REQUEST)
