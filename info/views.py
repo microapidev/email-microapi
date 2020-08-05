@@ -41,7 +41,7 @@ class InfoView(APIView):
 							"title": serializer.data['title'], 
 							"description": serializer.data['description'], 
 							"icon": url+serializer.data['icon']
-						}
+						},
 						"success": True,
 					}, status=status.HTTP_200_OK)
 		return Response({
