@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls import url
 import os
-from .views import SettingsView, test_settings
+from .views import SettingsView
 # from .views import ReturnSettings
 # from rest_framework_swagger.views import get_swagger_view
 
@@ -27,7 +27,7 @@ schema_view = get_schema_view(
 	openapi.Info(
 		title="Send Mail API",
 		default_version='v1',
-		description="A simple service for sending emails.",
+		description="A Microservice for Sending Emails.",
 	),
 	public=True,
 	url='https://email.microapi.dev/v1/',
@@ -55,7 +55,7 @@ urlpatterns = [
 	# path('v1/', include('bounce_notification.urls')),
 	path('v1/', include('newsletter_with_frontend.urls')),
 	path('v1/settings/', SettingsView.as_view()),
-	path('v1/test_settings/', test_settings.as_view()),
+	#path('v1/test_settings/', test_settings.as_view()),
 ]
 
 

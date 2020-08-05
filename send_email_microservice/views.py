@@ -96,7 +96,7 @@ class SettingsView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-
+'''
 class test_settings(APIView):
     def get(self, request):
         data = {
@@ -107,3 +107,4 @@ class test_settings(APIView):
         assert Response.status_code == status.HTTP_200_OK
         assert data['data'] == settings
         return Response("worked!")
+'''

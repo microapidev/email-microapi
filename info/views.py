@@ -8,8 +8,9 @@ from rest_framework import status
 from .serializers import InfoSerializer
 from .models import Info
 
+url = "https://email-microdev.herokuapp.com"
 class InfoView(APIView):
-	url = "https://email-microdev.herokuapp.com"
+	
 	parser_classes = [FileUploadParser, MultiPartParser]
 
 	def get(self, request, format=None, *args, **kwargs):
