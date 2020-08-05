@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls import url
 import os
+from .views import SettingsView, test_settings
 # from .views import ReturnSettings
-from . import views as settings_views
 # from rest_framework_swagger.views import get_swagger_view
 
 from rest_framework.authtoken.views import obtain_auth_token
@@ -41,19 +41,21 @@ urlpatterns = [
     path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('v1/', include('api.urls')),
     path('v1/', include('awsmail.urls')),
+    path('v1/', include('info.urls')),
 	path('v1/', include('registration.urls')),
 	path('v1/', include('confirmation.urls')),
 	path('v1/', include('invitation.urls')),
 	path('v1/', include('newsletter.urls')),
 	path('v1/', include('send_certificate.urls')),
+	path('v1/bouncy/', include('django_bouncy.urls')),
+    path('v1/', include('greetings_mail.urls')),
 	path('v1/', include('scheduler.urls')),
     	# path('v1/', include('Greetings_mail.urls')),
 	# path('bouncy/', include('django_bouncy.urls')),
 	# path('v1/', include('bounce_notification.urls')),
 	path('v1/', include('newsletter_with_frontend.urls')),
-	path('v1/settings/', settings_views.ReturnSettings.as_view()),
-	path('v1/test_settings/', settings_views.test_settings.as_view()),
-	
+	path('v1/settings/', SettingsView.as_view()),
+	path('v1/test_settings/', test_settings.as_view()),
 ]
 
 

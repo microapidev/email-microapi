@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'scheduler',
     'newsletter',
     'awsmail',
-    # 'greetings_mail',
+    'info',
+    'greetings_mail',
     'registration',
     'confirmation',
     'invitation',
@@ -214,5 +215,8 @@ CELERY_TASK_SERIALIZER = 'json'
 #UPLOADED_FILES_USE_URL = '/upload/'
 
 Q_CLUSTER = {
+    'name': 'send_email_microservice',
+    'workers': 8,
+    'recycle': 500,
     'redis': os.getenv('REDIS_KEY')
 }
