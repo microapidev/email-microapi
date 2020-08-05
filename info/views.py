@@ -9,7 +9,7 @@ from .serializers import InfoSerializer
 from .models import Info
 
 class InfoView(APIView):
-
+	url = "https://email-microdev.herokuapp.com"
 	parser_classes = [FileUploadParser, MultiPartParser]
 
 	def get(self, request, format=None, *args, **kwargs):
@@ -22,13 +22,14 @@ class InfoView(APIView):
 
 			return Response({
 						"status": "success",
-						"data":{
+						"message": "info retreived successfully!",
+						"data": {
 							"title": title, 
 							"description": description, 
-							"icon": "https://email-microdev.herokuapp.com"+icon
+							"icon": url+icon
 						}
 					}, status=status.HTTP_200_OK)
-		return Response({"status": "info request failed"}, status=status.HTTP_400_BAD_REQUEST)
+		return Response({"status": "failure", "message": "info couldn\'t be retreived!"}, status=status.HTTP_400_BAD_REQUEST)
 
 	def post(self, request, *args, **kwargs):
 		serializer = InfoSerializer(data=request.data)
@@ -36,17 +37,17 @@ class InfoView(APIView):
 			serializer.save()
 			return Response({
 						"status": "success",
-						"data":{
-							"message": "info updated successfully",
+						"data": {
+							"message": "info updated successfully!",
 							"title": serializer.data['title'], 
 							"description": serializer.data['description'], 
-							"icon": "https://email-microdev.herokuapp.com"+serializer.data['icon']
+							"icon": url+serializer.data['icon']
 						}
 					}, status=status.HTTP_200_OK)
 		return Response({
 						"status": "failure",
 						"data":{
-							"message": "bad request", 
+							"message": "bad request!", 
 							"errors": serializer.errors
 						}
 					}, status=status.HTTP_400_BAD_REQUEST)

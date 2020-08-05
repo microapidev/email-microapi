@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls import url
 import os
-from .views import ReturnSettings
+from .views import SettingsView
 # from rest_framework_swagger.views import get_swagger_view
 
 from rest_framework.authtoken.views import obtain_auth_token
@@ -53,7 +53,7 @@ urlpatterns = [
 	# path('bouncy/', include('django_bouncy.urls')),
 	# path('v1/', include('bounce_notification.urls')),
 	path('v1/', include('newsletter_with_frontend.urls')),
-	path('v1/settings/', ReturnSettings.as_view()),
+	path('v1/settings/', SettingsView.as_view()),
 ]
 
 
