@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'scheduler',
     'newsletter',
     'awsmail',
-    'aws_sns',
     # 'greetings_mail',
     'registration',
     'confirmation',
