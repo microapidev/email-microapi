@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls import url
 import os
-# from .views import ReturnSettings, test_settings
+# from .views import ReturnSettings
 from . import views as settings_views
 # from rest_framework_swagger.views import get_swagger_view
 
