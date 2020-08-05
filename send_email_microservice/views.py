@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
 from rest_framework.views import APIView
+import pytest
 
 
 settings =  [
@@ -73,7 +74,7 @@ settings =  [
             }
         ]
     },
-    
+
     {
         'setting_name':'Email Backend Type',
         'setting_type':'string',
@@ -92,3 +93,16 @@ class ReturnSettings(APIView):
             "success":True
         }
         return JsonResponse(data, status=status.HTTP_200_OK, safe=False)
+
+
+
+class test_settings(APIView):
+    def get(self, request):
+        data = {
+            "message":"Settings retreived successfuly",
+            "data":settings,
+            "success":True
+        }
+        assert Response.status_code == status.HTTP_200_OK
+        assert data['data'] == settings
+        return Response("worked!")
