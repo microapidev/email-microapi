@@ -71,19 +71,50 @@ def get_user_profile(request, pk):
             message.send()
 
             serializer.save()
-            return Response('Newsletter sent')
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    'message': 'Newsletter sent',
+                    'success': True,
+                },
+                status=status.HTTP_200_OK
+            )
+
+        return Response(
+            {
+                'message': 'Oops!! Something went wrong.',
+                'errors': serializer.errors,
+                'success': False,
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
 
     elif request.method == 'DELETE':
         user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {
+                "message": "Delete successful.",
+                "success": True
+            },
+            status=status.HTTP_204_NO_CONTENT
+        )
 
 def editor(request, pk):
     try:
         user = UserProfile.objects.get(pk=pk)
     except UserProfile.DoesNotExist:
-        return Response("id doesn't exist",status=status.HTTP_404_NOT_FOUND)
-    return render(request, 'newsletter_with_frontend/editor.html', {'user' : user})
+        return Response(
+            {
+                "message": "Oops!! id doesn't exist.",
+                "success": False
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+    return render(
+        request,
+        'newsletter_with_frontend/editor.html',
+        {'user' : user}
+    )
 
 def snippets(request):
     return render(request, 'newsletter_with_frontend/snippets.html')
