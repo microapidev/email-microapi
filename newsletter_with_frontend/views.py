@@ -73,7 +73,7 @@ def get_user_profile(request, pk):
             serializer.save()
             return Response(
                 {
-                    'message': 'Newsletter sent',
+                    'message': 'Newsletter sent!',
                     'success': True,
                 },
                 status=status.HTTP_200_OK
@@ -99,6 +99,7 @@ def get_user_profile(request, pk):
             status=status.HTTP_204_NO_CONTENT
         )
 
+
 def editor(request, pk):
     try:
         user = UserProfile.objects.get(pk=pk)
@@ -115,6 +116,7 @@ def editor(request, pk):
         'newsletter_with_frontend/editor.html',
         {'user' : user}
     )
+
 
 def snippets(request):
     return render(request, 'newsletter_with_frontend/snippets.html')
