@@ -94,17 +94,3 @@ class SettingsView(APIView):
             "success": True           
         }
         return Response(data, status=status.HTTP_200_OK)
-
-
-'''
-class test_settings(APIView):
-    def get(self, request):
-        data = {
-            "message": "Settings retreived successfuly",
-            "data": settings,
-            "success": True
-        }
-        assert Response.status_code == status.HTTP_200_OK
-        assert data['data'] == settings
-        return Response("worked!")
-'''
