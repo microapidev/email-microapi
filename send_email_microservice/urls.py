@@ -9,17 +9,26 @@ from .views import SettingsView
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import permissions
 from drf_yasg.generators import OpenAPISchemaGenerator
-from drf_yasg.views import get_schema_view, SwaggerUIRenderer
+from drf_yasg.views import SwaggerUIRenderer,get_schema_view
 from drf_yasg import openapi
 from django.conf import settings
 from django.conf.urls.static import static
+import json
+from django.http import JsonResponse
 # schema_view = get_swagger_view(title="Send Email Docs")
 SwaggerUIRenderer.template = 'drf-yasg.html'
 
+with open(r'swagger\swagger.json') as doc:
+	data = doc.read()
+data = json.loads(data)
+def documentation_func(request):
+	return JsonResponse(data,safe=False)
+
 class SchemaGenerator(OpenAPISchemaGenerator):
-	def get_schema(self, request=None, public=True):
-		schema = super(SchemaGenerator, self).get_schema(request, public)
-		schema.basePath = os.path.join(schema.basePath, '')
+	def get_schema(self):
+		
+		# schema = super(SchemaGenerator, self).get_schema(request, public)
+		# schema.basePath = os.path.join(schema.basePath, '')
 		return schema
 
 
@@ -36,7 +45,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('v1/documentation/', schema_view.as_view(), {'format': '.json'}, name='schema-json'),
+    path('v1/documentation/', documentation_func, name='schema-json'),
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('v1/', include('api.urls')),
