@@ -11,3 +11,4 @@ staticfiles/
 env.example
 *.pyc
 fenv/
+.pytest_
