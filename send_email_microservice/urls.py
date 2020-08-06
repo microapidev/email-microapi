@@ -18,7 +18,7 @@ from django.http import JsonResponse
 # schema_view = get_swagger_view(title="Send Email Docs")
 SwaggerUIRenderer.template = 'drf-yasg.html'
 
-with open(r'swagger\swagger.json') as doc:
+with open(r'swagger/swagger.json') as doc:
 	data = doc.read()
 data = json.loads(data)
 def documentation_func(request):
