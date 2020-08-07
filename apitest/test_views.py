@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from info.serializers import InfoSerializer
 from info.models import Info
 from rest_framework import status
-from django.urls import reverse
 import json
 import pytest
 from api import urls
