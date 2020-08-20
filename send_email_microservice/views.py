@@ -15,17 +15,17 @@ settings =  [
         [
             {
                 'setting_name': 'Sendgrid Api Key',
-                'setting_value': null,
+                'setting_value': None,
                 'setting_required': True
             },
             {
                 "setting_name": "Email Port",
-                'setting_value': null,
+                'setting_value': None,
                 'setting_required': True
             },
             {
                 'setting_name': 'TLS/SSL Setting',
-                'setting_value': null,
+                'setting_value': None,
                 'setting_required': True
             },                
         ]
@@ -39,22 +39,22 @@ settings =  [
         [
             {
                 'setting_name': 'AWS Access Key ID',
-                'setting_value': null,
+                'setting_value': None,
                 'setting_required': True
             },
             {
                 'setting_name': 'AWS Secret Access Key',
-                'setting_value': null,
+                'setting_value': None,
                 'setting_required': True
             },
             {
                 'setting_name': 'AWS Ses Region Name',
-                'setting_value': null,
+                'setting_value': None,
                 'setting_required': True
             },
             {
                 'setting_name': 'AWS Ses Region Endpoint',
-                'setting_value': null,
+                'setting_value': None,
                 'setting_required': True
             }
         ]
