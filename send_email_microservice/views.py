@@ -14,13 +14,19 @@ settings =  [
         'setting_value':
         [
             {
-                'setting_name': 'Sendgrid Api Key'
+                'setting_name': 'Sendgrid Api Key',
+                'setting_value': null,
+                'setting_required': True
             },
             {
-                "setting_name": "Email Port"
+                "setting_name": "Email Port",
+                'setting_value': null,
+                'setting_required': True
             },
             {
-                'setting_name': 'TLS/SSL Setting'
+                'setting_name': 'TLS/SSL Setting',
+                'setting_value': null,
+                'setting_required': True
             },                
         ]
     },
@@ -32,16 +38,24 @@ settings =  [
         'setting_value':
         [
             {
-                'setting_name': 'AWS Access Key ID'
+                'setting_name': 'AWS Access Key ID',
+                'setting_value': null,
+                'setting_required': True
             },
             {
-                'setting_name': 'AWS Secret Access Key'
+                'setting_name': 'AWS Secret Access Key',
+                'setting_value': null,
+                'setting_required': True
             },
             {
-                'setting_name': 'AWS Ses Region Name'
+                'setting_name': 'AWS Ses Region Name',
+                'setting_value': null,
+                'setting_required': True
             },
             {
-                'setting_name': 'AWS Ses Region Endpoint'
+                'setting_name': 'AWS Ses Region Endpoint',
+                'setting_value': null,
+                'setting_required': True
             }
         ]
     },   
@@ -60,3 +74,4 @@ class SettingsView(APIView):
             "success": True           
         }
         return Response(data, status=status.HTTP_200_OK)
+
