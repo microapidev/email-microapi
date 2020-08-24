@@ -29,12 +29,12 @@ class BounceNotification(APIView):
         #Protocol could be HTTP(S), email, and/or mobile app
 
         serializer = BounceSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            topic_arn = serializer.validated_data["topic_arn"]
-            subscriber_email = serializer.validated_data["subscriber_email"]
-            bounce_subscription = sns_connection.subscribe(
-                TopicArn=topic_arn,
-                Protocol='email',
-                Endpoint=subscriber_email
-            )
-            return Response(bounce_subscription)
+        serializer.is_valid(raise_exception=True)
+        topic_arn = serializer.validated_data["topic_arn"]
+        subscriber_email = serializer.validated_data["subscriber_email"]
+        bounce_subscription = sns_connection.subscribe(
+            TopicArn=topic_arn,
+            Protocol='email',
+            Endpoint=subscriber_email
+        )
+        return Response(bounce_subscription)
