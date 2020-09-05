@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'django_q',
     'newsletter_with_frontend',
     'apitest',
-
+    'settings',
 ]
 
 MIDDLEWARE = [
