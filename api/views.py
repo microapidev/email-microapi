@@ -40,8 +40,9 @@ class SendMail(APIView):
             return send_email(mail_sz.validated_data)
         else:
             return Response({
-                'status': 'failure',
-                'data': { 'message': 'Incorrect request format.', 'errors': mail_sz.errors}
+                'message': 'Incorrect request format.', 
+                'errors': mail_sz.errors,
+                'success': False
             }, status=status.HTTP_400_BAD_REQUEST)
 class SendMailWithTemplate(APIView):
 
@@ -58,8 +59,9 @@ class SendMailWithTemplate(APIView):
             return send_email(template_mail_sz.validated_data, is_html_template=True)
         else:
             return Response({
-                'status': 'failure',
-                'data': { 'message': 'Incorrect request format.', 'errors': template_mail_sz.errors}
+                'message': 'Incorrect request format.', 
+                'errors': template_mail_sz.errors,
+                'success': False,
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -92,11 +94,13 @@ def send_email(options, is_html_template=False):
     response = sg.client.mail.send.post(request_body=data)
     if response.status_code != 202:
         return Response({
-            'status': 'failure',
-            'data': { 'message': 'An error occurred.'}
+            'message': 'An error occurred.',
+            'data': {},
+            'success': False
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     return Response({
-        'status': 'success',
-        'data': { 'message': 'Mail sent successfully.'}
+        'message': 'Mail sent successfully.',
+        'data': {},
+        'success': True
     }, status=status.HTTP_200_OK)

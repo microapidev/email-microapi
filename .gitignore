@@ -4,8 +4,12 @@
 /*.env
 emailenv/
 emailapp/
+emailmicroapi/
 *.csv
 *.CSV
 __pycache__/
 staticfiles/
 env.example
+*.pyc
+fenv/
+.pytest_

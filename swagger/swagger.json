@@ -1,0 +1,844 @@
+{
+    "message":"API documentation retrieved successfully",
+    "data":{  
+    "openapi": "3.0.1",
+    "info": {
+      "version": "1.0.0",
+      "title": "Email microAPI",
+      "description": "A Microservice for Sending Emails.",
+      "contact":{"name":"HNGI"}
+      
+    },
+    "servers": [
+      {
+        "url": "https://email.microapi.dev/v1"
+      }
+    ],
+    "security": [
+      {
+        "api_key": []
+      }
+    ],
+    "paths": {
+      "/awsmail-attachment/": {
+        "post": {
+          "tags": [
+            "Send Mail with attachment"
+          ],
+          "summary": "Sending email with AMAZON SES with attachment",
+          "description": "Send email using AMAZON SES with attachment",
+          "operationId": "awsmail-attachment_create",
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "required": [
+                    "attach",
+                    "body",
+                    "recipient",
+                    "sender",
+                    "subject"
+                  ],
+                  "properties": {
+                    "recipient": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "sender": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "subject": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "body": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "cc": {
+                      "type": "string"
+                    },
+                    "bcc": {
+                      "type": "string"
+                    },
+                    "attach": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "required": [
+                    "attach",
+                    "body",
+                    "recipient",
+                    "sender",
+                    "subject"
+                  ],
+                  "properties": {
+                    "recipient": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "sender": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "subject": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "body": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "cc": {
+                      "type": "string"
+                    },
+                    "bcc": {
+                      "type": "string"
+                    },
+                    "attach": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/awsmail/": {
+        "post": {
+          "tags": [
+            "Email with Amazon SES"
+          ],
+          "summary": "Sending email with AMAZON SES",
+          "description": "Send email using AMAZON SES",
+          "operationId": "awsmail_create",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mail"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "data"
+        }
+      },
+      "/info/": {
+        "get": {
+          "tags": [
+            "info"
+          ],
+          "operationId": "info_list",
+          "responses": {
+            "200": {
+              "description": "",
+              "content": {}
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "info"
+          ],
+          "operationId": "info_create",
+          "responses": {
+            "201": {
+              "description": "",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/profile/{id}/": {
+        "get": {
+          "tags": [
+            "profile"
+          ],
+          "operationId": "profile_read",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "content": {}
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "profile"
+          ],
+          "operationId": "profile_update",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "content": {}
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "profile"
+          ],
+          "operationId": "profile_delete",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/profiles/": {
+        "get": {
+          "tags": [
+            "profiles"
+          ],
+          "operationId": "profiles_list",
+          "responses": {
+            "200": {
+              "description": "",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/send_certificate/": {
+        "post": {
+          "tags": [
+            "Certificate Email"
+          ],
+          "summary": "Predefined template to send out certificatee links to participants",
+          "description": "Sends certificate links, it takes in parameters such as sender, recipient , and the link to download the certificate, you can also specify what type of service to send mail with amazon or SMTP.",
+          "operationId": "send_certificate_create",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendCertificate"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "data"
+        }
+      },
+      "/send_confirmation/": {
+        "post": {
+          "tags": [
+            "Confirmation Email"
+          ],
+          "summary": "Predefined template to send confirmation email",
+          "description": "Sends email confirmation links, it takes in parameters such as sender, recipient , body(which can be left empty), and the confirmation url",
+          "operationId": "send_confirmation_create",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmationMail"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "data"
+        }
+      },
+      "/send_invitation/": {
+        "post": {
+          "tags": [
+            "Invitation Email"
+          ],
+          "summary": "Predefined template for sending invitation link",
+          "description": "Sends email invites",
+          "operationId": "send_invitation_create",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvitationMail"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "data"
+        }
+      },
+      "/send_scheduledemail/": {
+        "post": {
+          "tags": [
+            "Scheduled Email"
+          ],
+          "summary": "Schedule an email",
+          "operationId": "send_scheduledemail_create",
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "required": [
+                    "body",
+                    "recipient",
+                    "sender",
+                    "subject"
+                  ],
+                  "properties": {
+                    "sender": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "recipient": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "subject": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "body": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "required": [
+                    "body",
+                    "recipient",
+                    "sender",
+                    "subject"
+                  ],
+                  "properties": {
+                    "sender": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "recipient": {
+                      "minLength": 1,
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "subject": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "body": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/send_welcome/": {
+        "post": {
+          "tags": [
+            "Registration Email"
+          ],
+          "summary": "Predefined template for sending registration confirmation",
+          "description": "Sends email after user registers, it takes in parameters such as sender, recipient , body(which can be left empty), and tthe site url",
+          "operationId": "send_welcome_create",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationMail"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "data"
+        }
+      },
+      "/sendmail/": {
+        "post": {
+          "tags": [
+            "Send Plain Email"
+          ],
+          "summary": "Send plain email using SMTP (sendgrid)",
+          "description": "Sends email as plain text to recipient from sender.",
+          "operationId": "sendmail_create",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mail"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "data"
+        }
+      },
+      "/sendmailwithtemplate/": {
+        "post": {
+          "tags": [
+            "Send Plain Email with template"
+          ],
+          "summary": "Send email with html body using SMTP (sendgrid)",
+          "description": "Sends email as HTML template to recipient from sender.",
+          "operationId": "sendmailwithtemplate_create",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateMail"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Mail sent successfully.",
+              "content": {}
+            },
+            "400": {
+              "description": "Incorrect request format.",
+              "content": {}
+            },
+            "500": {
+              "description": "An error occurred, could not send email.",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "data"
+        }
+      },
+      "/settings/": {
+        "get": {
+          "tags": [
+            "settings"
+          ],
+          "operationId": "settings_list",
+          "responses": {
+            "200": {
+              "description": "",
+              "content": {}
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Mail": {
+          "required": [
+            "body",
+            "recipient",
+            "sender",
+            "subject"
+          ],
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "title": "Recipient",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "sender": {
+              "title": "Sender",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "subject": {
+              "title": "Subject",
+              "minLength": 1,
+              "type": "string"
+            },
+            "body": {
+              "title": "Body",
+              "minLength": 1,
+              "type": "string"
+            },
+            "cc": {
+              "title": "Cc",
+              "type": "string"
+            },
+            "bcc": {
+              "title": "Bcc",
+              "type": "string"
+            }
+          }
+        },
+        "SendCertificate": {
+          "required": [
+            "certificate_link",
+            "participant_name",
+            "recipient",
+            "sender"
+          ],
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "title": "Recipient",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "participant_name": {
+              "title": "Participant name",
+              "minLength": 1,
+              "type": "string"
+            },
+            "certificate_link": {
+              "title": "Certificate link",
+              "minLength": 1,
+              "type": "string"
+            },
+            "sender": {
+              "title": "Sender",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "backend_type": {
+              "title": "Backend type",
+              "type": "string"
+            }
+          }
+        },
+        "ConfirmationMail": {
+          "required": [
+            "confirmation_link",
+            "recipient",
+            "sender",
+            "site_name"
+          ],
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "title": "Recipient",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "body": {
+              "title": "Body",
+              "type": "string"
+            },
+            "site_name": {
+              "title": "Site name",
+              "minLength": 1,
+              "type": "string"
+            },
+            "confirmation_link": {
+              "title": "Confirmation link",
+              "minLength": 1,
+              "type": "string"
+            },
+            "sender": {
+              "title": "Sender",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "backend_type": {
+              "title": "Backend type",
+              "type": "string"
+            }
+          }
+        },
+        "InvitationMail": {
+          "required": [
+            "recipient",
+            "registration_link",
+            "sender",
+            "site_name"
+          ],
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "title": "Recipient",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "body": {
+              "title": "Body",
+              "type": "string"
+            },
+            "site_name": {
+              "title": "Site name",
+              "minLength": 1,
+              "type": "string"
+            },
+            "registration_link": {
+              "title": "Registration link",
+              "minLength": 1,
+              "type": "string"
+            },
+            "sender": {
+              "title": "Sender",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "backend_type": {
+              "title": "Backend type",
+              "type": "string"
+            }
+          }
+        },
+        "RegistrationMail": {
+          "required": [
+            "login_link",
+            "recipient",
+            "sender",
+            "site_name"
+          ],
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "title": "Recipient",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "body": {
+              "title": "Body",
+              "type": "string"
+            },
+            "site_name": {
+              "title": "Site name",
+              "minLength": 1,
+              "type": "string"
+            },
+            "login_link": {
+              "title": "Login link",
+              "minLength": 1,
+              "type": "string"
+            },
+            "sender": {
+              "title": "Sender",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "backend_type": {
+              "title": "Backend type",
+              "type": "string"
+            }
+          }
+        },
+        "TemplateMail": {
+          "required": [
+            "htmlBody",
+            "recipient",
+            "sender",
+            "subject"
+          ],
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "title": "Recipient",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "sender": {
+              "title": "Sender",
+              "minLength": 1,
+              "type": "string",
+              "format": "email"
+            },
+            "subject": {
+              "title": "Subject",
+              "minLength": 1,
+              "type": "string"
+            },
+            "cc": {
+              "title": "Cc",
+              "type": "string"
+            },
+            "bcc": {
+              "title": "Bcc",
+              "type": "string"
+            },
+            "htmlBody": {
+              "title": "Htmlbody",
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "api_key": {
+          "type": "apiKey",
+          "name": "Authorization",
+          "in": "header"
+        }
+      }
+    }
+  },
+  "success":true}

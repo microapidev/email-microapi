@@ -58,14 +58,13 @@ class SendSchduledEmail(APIView):
                 next_run=timezone.now() + timedelta(seconds=10))
             
             return Response({
-                'status': 'Successful',
-                'data': {
-                    'message': 'Scheduled email successfully sent'
-                }
+                'message': 'Scheduled email successfully sent',
+                'success': True
             }, status=status.HTTP_200_OK)
             
         else:
             return Response({
-                'status': 'failure',
-                'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+                'message': 'Incorrect request format.',
+                'errors': serializer.errors,
+                'success': False
             }, status=status.HTTP_400_BAD_REQUEST)

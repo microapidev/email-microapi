@@ -54,13 +54,16 @@ INSTALLED_APPS = [
     'scheduler',
     'newsletter',
     'awsmail',
-    'aws_sns',
-    # 'greetings_mail',
+    'info',
+    'greetings_mail',
     'registration',
     'confirmation',
     'invitation',
     'send_certificate',
-    'django_q'
+    'django_q',
+    'newsletter_with_frontend',
+    'apitest',
+    'settings',
 ]
 
 MIDDLEWARE = [
@@ -194,12 +197,13 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
 
-#AMAZON SES SETTINGS
+# #AMAZON SES SETTINGS
 EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_SES_REGION_NAME = 'eu-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
+
 
 
 # Celery settings
@@ -213,5 +217,8 @@ CELERY_TASK_SERIALIZER = 'json'
 #UPLOADED_FILES_USE_URL = '/upload/'
 
 Q_CLUSTER = {
+    'name': 'send_email_microservice',
+    'workers': 8,
+    'recycle': 500,
     'redis': os.getenv('REDIS_KEY')
 }
