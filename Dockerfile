@@ -20,7 +20,7 @@ COPY . /app
 COPY env.example /app/.env
 
 # Switching to a non-root user, please refer to https://aka.ms/vscode-docker-python-user-rights
-RUN useradd appuser && chown -R appuser /app
+#RUN useradd appuser && chown -R appuser /app
 RUN mkdir -p /app/static
 RUN python manage.py collectstatic --noinput
 

@@ -65,7 +65,7 @@ class SendConfirmationLink(APIView):
             else:
                 send_mail(sender, recipient, subject, content)
                 return Response({
-                'message': 'Confirmation link successfully sent',
+                'message': 'Confirmation link successfully sent by sendgrid',
                 'success': True,
             }, status=status.HTTP_200_OK)
             
