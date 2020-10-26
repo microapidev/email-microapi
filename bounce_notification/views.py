@@ -5,6 +5,7 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from django.conf import settings
+from .serializer import BounceSerializer
 from drf_yasg.utils import swagger_auto_schema
 
 class BounceNotification(APIView):
@@ -26,9 +27,14 @@ class BounceNotification(APIView):
         #Creates an SNS subcription that receives messages published to the topic above
         #insert the topic arn name gotten from creating the topic above.
         #Protocol could be HTTP(S), email, and/or mobile app
-        topic_arn = 'arn:aws:sns:eu-west-2:084175886792:Bounces'
+
+        serializer = BounceSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        topic_arn = serializer.validated_data["topic_arn"]
+        subscriber_email = serializer.validated_data["subscriber_email"]
         bounce_subscription = sns_connection.subscribe(
-                                        TopicArn=topic_arn,
-                                        Protocol='email', 
-                                        Endpoint='email_address')
+            TopicArn=topic_arn,
+            Protocol='email',
+            Endpoint=subscriber_email
+        )
         return Response(bounce_subscription)

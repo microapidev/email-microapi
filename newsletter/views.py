@@ -54,13 +54,15 @@ class SendNewsletter(APIView):
 
             send_mail(sender, recipient, subject, content)
 
-            return Response({'status': 'success',
-                            'data': {'message': 'Mail Sent Successfully'}},
-                            status=status.HTTP_200_OK)
+            return Response({
+                    'message': 'Mail Sent Successfully',
+                    'success': True
+                }, status=status.HTTP_200_OK)
         else:
             return Response({
-                'status': 'failure',
-                'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+                'message': 'Incorrect request format.',
+                'errors': serializer.errors,
+                'success': False
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -89,6 +91,7 @@ class SendCustomMail(APIView):
                         status=status.HTTP_200_OK)
         else:
             return Response({
-                'status': 'failure',
-                'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+                'message': 'Incorrect request format.',
+                'errors': serializer.errors,
+                'success': False
             }, status=status.HTTP_400_BAD_REQUEST)

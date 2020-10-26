@@ -6,6 +6,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from .serializer import UserProfileSerializers, EditSerializer
 from django.conf import settings
+from django.utils.html import strip_tags
 from django.core.mail import send_mail
 
 
@@ -53,9 +54,13 @@ def get_user_profile(request, pk):
             sender = settings.EMAIL_HOST_USER
             # striped_tags = strip_tags(content)
             # send_mail(subject, striped_tags, sender, [recipient])
-            with open(settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html', 'w') as f:
+            with open(
+                settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html', 'w'
+                ) as f:
                 newsletter_mail = f.write(content)
-            with open(settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html') as f:
+            with open(
+                settings.BASE_DIR + '/newsletter_with_frontend/templates/newsletter_with_frontend/mail.html'
+                ) as f:
                 newsletter_mail = f.read()
                 newsletter_name = f.name
                 newsletter_txt = strip_tags(newsletter_mail)
@@ -66,19 +71,52 @@ def get_user_profile(request, pk):
             message.send()
 
             serializer.save()
-            return Response('Newsletter sent')
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    'message': 'Newsletter sent!',
+                    'success': True,
+                },
+                status=status.HTTP_200_OK
+            )
+
+        return Response(
+            {
+                'message': 'Oops!! Something went wrong.',
+                'errors': serializer.errors,
+                'success': False,
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
 
     elif request.method == 'DELETE':
         user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {
+                "message": "Delete successful.",
+                "success": True
+            },
+            status=status.HTTP_204_NO_CONTENT
+        )
+
 
 def editor(request, pk):
     try:
         user = UserProfile.objects.get(pk=pk)
     except UserProfile.DoesNotExist:
-        return Response("id doesn't exist",status=status.HTTP_404_NOT_FOUND)
-    return render(request, 'newsletter_with_frontend/editor.html', {'user' : user})
+        return Response(
+            {
+                "message": "Oops!! id doesn't exist.",
+                "success": False
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+    return render(
+        request,
+        'newsletter_with_frontend/editor.html',
+        {'user' : user}
+    )
+
 
 def snippets(request):
     return render(request, 'newsletter_with_frontend/snippets.html')

@@ -23,7 +23,7 @@ class AwsMailView(APIView):
 		operation_description="Send email using AMAZON SES",
 		operation_summary="Sending email with AMAZON SES",
 		responses=MAIL_RESPONSES,
-		tags=['Email with Amazon ses']
+		tags=['Email with Amazon SES']
 	)
 	def post(self, request, *args, **kwargs):
 		serializer = MailSerializer(data=request.data)
@@ -36,14 +36,15 @@ class AwsMailView(APIView):
 			send_aws_mail.delay(subject, body, sender, recipient)
 			
 			return Response({
-                    'status': 'success',
-                    'data': {'message': 'Mail Sent Successfully'}
+					'message': 'Mail Sent Successfully',
+                    'success': True,
                 }, status=status.HTTP_200_OK)
 		else:
 			return Response({
-				'status': 'failure',
-				'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
-				}, status=status.HTTP_400_BAD_REQUEST)
+				'message': 'Incorrect request format.', 
+				'errors': serializer.errors,
+				'success': False,
+			}, status=status.HTTP_400_BAD_REQUEST)
 			
 
 class AwsMailAttachmentView(APIView):
@@ -54,7 +55,7 @@ class AwsMailAttachmentView(APIView):
 		operation_description="Send email using AMAZON SES with attachment",
 		operation_summary="Sending email with AMAZON SES with attachment",
 		responses=MAIL_RESPONSES,
-		tags = ['Send Mail with attachment']
+		tags=['Send Mail with attachment']
 	)
 	def post(self, request, *args, **kwargs):
 		serializer = MailAttachmentSerializer(data=request.data)
@@ -69,11 +70,12 @@ class AwsMailAttachmentView(APIView):
 			send_aws_mail_attachment(subject, body, sender, recipient, attach)
 			
 			return Response({
-                    'status': 'success',
-                    'data': {'message': 'Mail Sent Successfully'}
+                    'message': 'Mail Sent Successfully',
+                    'success': True,
                 }, status=status.HTTP_200_OK)
 		else:
 			return Response({
-				'status': 'failure',
-				'data': { 'message': 'Incorrect request format.', 'errors': serializer.errors}
+				'message': 'Incorrect request format.',
+				'errors': serializer.errors,
+				'success': False,
 				}, status=status.HTTP_400_BAD_REQUEST)

@@ -54,14 +54,16 @@ INSTALLED_APPS = [
     'scheduler',
     'newsletter',
     'awsmail',
-    'aws_sns',
-    # 'greetings_mail',
+    'info',
+    'greetings_mail',
     'registration',
     'confirmation',
     'invitation',
     'send_certificate',
     'django_q',
     'newsletter_with_frontend',
+    'apitest',
+    'settings',
 ]
 
 MIDDLEWARE = [
@@ -204,7 +206,6 @@ AWS_SES_REGION_ENDPOINT = 'email.eu-west-2.amazonaws.com'
 
 
 
-
 # Celery settings
 CELERY_BROKER_URL = 'amqp://admin:mypass@broker:5672'
 # CELERY_BROKER_URL = 'amqp://localhost'
@@ -216,5 +217,8 @@ CELERY_TASK_SERIALIZER = 'json'
 #UPLOADED_FILES_USE_URL = '/upload/'
 
 Q_CLUSTER = {
+    'name': 'send_email_microservice',
+    'workers': 8,
+    'recycle': 500,
     'redis': os.getenv('REDIS_KEY')
 }
